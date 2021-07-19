@@ -1,17 +1,24 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
+import { today } from "../utils/date-time";
 
 function NewReservation() {
     const history = useHistory();
+
+    const date = new Date();
+    const [hour, minutes] = [date.getHours(), date.getMinutes()];
+    const currentTime = 
+        hour.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + ":" +
+        minutes.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+    const currentDay = today();
+
     const [first_name, setFirst_name] = useState("");
     const [last_name, setLast_name] = useState("");
     const [mobile_number, setMobile_number] = useState("");
-    const [reservation_date, setReservation_date] = useState("");
-    const [reservation_time, setReservation_time] = useState("");
+    const [reservation_date, setReservation_date] = useState(`${currentDay}`);
+    const [reservation_time, setReservation_time] = useState(`${currentTime}`)
     const [people, setPeople] = useState(1);
-
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,7 +33,7 @@ function NewReservation() {
         createReservation(reservation)
         .then((response) => {
             console.log(response)
-            history.push('/dashboard')
+            history.push(`/dashboard?date=${reservation_date}`)
         })
     }
 
