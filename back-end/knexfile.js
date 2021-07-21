@@ -9,9 +9,9 @@ const path = require("path");
 
 const {
   DATABASE_URL = "postgresql://postgres@localhost/postgres",
-  DATABASE_URL_DEVELOPMENT = "postgres://hueghpdt:BwavsM-ut41pm4epO_HFzjvYZ2gzZhNj@batyr.db.elephantsql.com/hueghpdt", //"postgresql://postgres@localhost/postgres",
-  DATABASE_URL_TEST = "postgresql://postgres:password@localhost/postgres",
-  DATABASE_URL_PREVIEW = "postgresql://postgres:password@localhost/postgres",
+  DATABASE_URL_DEVELOPMENT = "postgresql://postgres@localhost/postgres", 
+  DATABASE_URL_TEST = "postgresql://postgres@localhost/postgres",
+  DATABASE_URL_PREVIEW = "postgresql://postgres@localhost/postgres",
   DEBUG,
 } = process.env;
 

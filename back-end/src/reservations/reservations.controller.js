@@ -18,58 +18,59 @@ async function resExists(req, res, next) {
   });
 }
 
-//DOES THIS NEED TO BE ASYNC??
 function resHasFirstName(req, res, next) {
-  const {data: {first_name} = {}} = req.body;
+  const {first_name = ""} = req.body.data;
   if (!first_name || first_name === "") {
     next({
       status: 400,
-      message: `A first name is required.`
+      message: `A first_name is required.`
     });
   }
   return next();
 }
 
 function resHasLastName(req, res, next) {
-  const {data: {last_name} = {}} = req.body;
+  const {last_name = ""} = req.body.data;
   if (!last_name || last_name === "") {
     next({
       status: 400,
-      message: `A last name is required.`
+      message: `A last_name is required.`
     });
   }
   return next();
 }
+
 function resHasMobilePhone(req, res, next) {
-  const {data: {mobile_number} = {}} = req.body;
+  const {mobile_number = ""} = req.body.data;
   if (!mobile_number || mobile_number === "") {
     next({
       status: 400,
-      message: `A mobile phone number is required.`
+      message: `A mobile_number is required.`
     });
   }
   return next();
 }
 
-//CHECK IF DATE PARSE WORKS
 function resHasReservationDate(req, res, next) {
-  const {data: {reservation_date} = {}} = req.body;
-  if (!reservation_date || reservation_date === "" || Date.parse(reservation_date) ) {
+  const {reservation_date = ""} = req.body.data;
+  let date_regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/;
+  if (!reservation_date || reservation_date === "" || !date_regex.test(reservation_date) ) {
     next({
       status: 400,
-      message: `A valid reservation date is required.`
+      message: `A valid reservation_date is required.`
     });
   }
   return next();
 }
 
-//CHECK IF NAN WORKS
+//CHECK WORKS
 function resHasReservationTime(req, res, next) {
-  const {data: {reservation_time} = {}} = req.body;
-  if (!reservation_time || reservation_time === "" || !isNaN(reservation_time) ) {
+  const {reservation_time = ""} = req.body.data;
+  let time_regex = /^(0[1-9]|1[1-9])\/(0[1-9]|1[1-9])\$/;
+  if (!reservation_time || reservation_time === "" || !time_regex.test(reservation_time) ) {
     next({
       status: 400,
-      message: `A valid reservation time is required.`
+      message: `A valid reservation_time is required.`
     });
   }
   return next();
@@ -77,7 +78,7 @@ function resHasReservationTime(req, res, next) {
 
 //CHECK IF NAN WORKS
 function resHasPeopleCount(req, res, next) {
-  const {data: {people} = {}} = req.body;
+  const {people = ""} = req.body.data;
   if (!people || people === "" || !isNaN(people) ) {
     next({
       status: 400,
@@ -120,12 +121,12 @@ async function create(req, res) {
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
-    // resHasFirstName,
-    // resHasLastName,
-    // resHasMobilePhone,
-    // resHasReservationDate,
-    // resHasReservationTime,
-    // resHasPeopleCount,
+    resHasFirstName,
+    resHasLastName,
+    resHasMobilePhone,
+    resHasReservationDate,
+    resHasReservationTime,
+    resHasPeopleCount,
     asyncErrorBoundary(create),
   ],
 };
