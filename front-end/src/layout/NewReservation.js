@@ -49,6 +49,7 @@ function NewReservation() {
                     <label>First Name:</label>
                     <br />
                         <input
+                        name="first_name"
                         type="text"
                         required
                         onChange={(e) => setFirst_name(e.target.value)}
@@ -58,6 +59,7 @@ function NewReservation() {
                     <label>Last Name:</label>
                     <br />
                         <input
+                        name="last_name"
                         type="text"
                         required
                         onChange={(e) => setLast_name(e.target.value)}
@@ -67,6 +69,7 @@ function NewReservation() {
                     <label>Mobile Number:</label>
                     <br />
                         <input
+                        name="mobile_number"
                         type="text"
                         required
                         onChange={(e) => setMobile_number(e.target.value)}
@@ -76,6 +79,7 @@ function NewReservation() {
                     <label>Reservation Date:</label>
                     <br />
                         <input
+                        name="reservation_date"
                         type="date"
                         required
                         onChange={(e) => setReservation_date(e.target.value)}
@@ -85,6 +89,7 @@ function NewReservation() {
                     <label>Reservation Time:</label>
                     <br />
                         <input
+                        name="reservation_time"
                         type="time"
                         required
                         onChange={(e) => setReservation_time(e.target.value)}
@@ -94,6 +99,7 @@ function NewReservation() {
                     <label>Amount of People:</label>
                     <br />
                         <input
+                        name="people"
                         type="integer"
                         required
                         onChange={(e) => setPeople(e.target.value)}

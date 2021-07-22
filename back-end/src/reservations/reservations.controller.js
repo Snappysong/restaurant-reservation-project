@@ -18,8 +18,19 @@ async function resExists(req, res, next) {
   });
 }
 
+function resHasData(req, res, next) {
+  const {data} = req.body;
+  if (!data) {
+    next({
+      status: 400,
+      message: `Need to have reservation data!`
+    });
+  }
+  return next();
+}
+
 function resHasFirstName(req, res, next) {
-  const {first_name = ""} = req.body.data;
+  const {data: {first_name}} = req.body;
   if (!first_name || first_name === "") {
     next({
       status: 400,
@@ -30,7 +41,7 @@ function resHasFirstName(req, res, next) {
 }
 
 function resHasLastName(req, res, next) {
-  const {last_name = ""} = req.body.data;
+  const {data: {last_name}} = req.body;
   if (!last_name || last_name === "") {
     next({
       status: 400,
@@ -41,7 +52,7 @@ function resHasLastName(req, res, next) {
 }
 
 function resHasMobilePhone(req, res, next) {
-  const {mobile_number = ""} = req.body.data;
+  const {data: {mobile_number}} = req.body;
   if (!mobile_number || mobile_number === "") {
     next({
       status: 400,
@@ -52,34 +63,44 @@ function resHasMobilePhone(req, res, next) {
 }
 
 function resHasReservationDate(req, res, next) {
-  const {reservation_date = ""} = req.body.data;
-  let date_regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/;
-  if (!reservation_date || reservation_date === "" || !date_regex.test(reservation_date) ) {
+  const {data: {reservation_date}} = req.body;
+  if (!reservation_date || reservation_date === "") {
     next({
       status: 400,
       message: `A valid reservation_date is required.`
     });
   }
+  const nums = reservation_date.split("-")
+  if (nums.length !== 3 || nums[0].length !== 4) {
+    next({
+      status: 400,
+      message: `the reservation_date needs to be a date.`
+    })
+  }
   return next();
 }
 
-//CHECK WORKS
 function resHasReservationTime(req, res, next) {
-  const {reservation_time = ""} = req.body.data;
-  let time_regex = /^(0[1-9]|1[1-9])\/(0[1-9]|1[1-9])\$/;
-  if (!reservation_time || reservation_time === "" || !time_regex.test(reservation_time) ) {
+  const {data: {reservation_time}} = req.body;
+  if (!reservation_time || reservation_time === "") {
     next({
       status: 400,
       message: `A valid reservation_time is required.`
     });
   }
+  const nums = reservation_time.split(":");
+  if (nums.length !== 2){
+    next({
+      status: 400,
+      message: `The reservation_time needs to be a time.`
+    })
+  }
   return next();
 }
 
-//CHECK IF NAN WORKS
 function resHasPeopleCount(req, res, next) {
-  const {people = ""} = req.body.data;
-  if (!people || people === "" || !isNaN(people) ) {
+  const {data: {people}} = req.body;
+  if (!people || typeof people !== "number" ) {
     next({
       status: 400,
       message: `A valid amount of people is required.`
@@ -114,13 +135,14 @@ async function read(req, res) {
 }
 
 async function create(req, res) {
-  const data = await service.create(req.body);
+  const data = await service.create(req.body.data);
   res.status(201).json({ data })
 }
 
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
+    resHasData,
     resHasFirstName,
     resHasLastName,
     resHasMobilePhone,
