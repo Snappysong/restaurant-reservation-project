@@ -100,9 +100,9 @@ function NewReservation() {
                     <br />
                         <input
                         name="people"
-                        type="integer"
+                        type="number"
                         required
-                        onChange={(e) => setPeople(e.target.value)}
+                        onChange={(e) => setPeople(e.target.valueAsNumber)}
                         value={people}
                         />
                     <br />
