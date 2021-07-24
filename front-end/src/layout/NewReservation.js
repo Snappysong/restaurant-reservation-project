@@ -21,21 +21,52 @@ function NewReservation() {
     const [people, setPeople] = useState(1);
     const [showAlertForTuesdays, setShowAlertForTuesdays] = useState("");
     const [showAlertForPast, setShowAlertForPast] = useState("");
+    const [showAlertForTime, setShowAlertForTime] = useState("");
     
     const handleSubmit = (e) => {
         e.preventDefault();
         setShowAlertForPast("");
         setShowAlertForTuesdays("");
+        setShowAlertForTime("");
 
-        let reservationDate = new Date(reservation_date);
-        if (reservationDate.getDay() === 1) {
-            setShowAlertForTuesdays("We are closed on Tuesdays!");
+        let year = reservation_date.split("-")[0];
+        let month = reservation_date.split("-")[1] - 1;
+        let day = reservation_date.split("-")[2];
+        let hour = reservation_time.split(":")[0];
+        let min = reservation_time.split(":")[1];
+        let reservationDate = new Date(year, month, day, hour, min)
+        let currentDate = new Date();
+        let valid = true;
+
+        if (reservationDate.getHours() < 10) {
+            setShowAlertForTime("This is before we are open!");
+            valid = false;
         }
-        let currentDate = new Date(currentDay)
-        if (reservationDate < currentDate) {
+        if (reservationDate.getHours() === 10) {
+            if (reservationDate.getMinutes() < 30) {
+                setShowAlertForTime("This is before we are open!");
+                valid = false;
+            }
+        }
+        if (reservationDate.getHours() > 21) {
+            setShowAlertForTime("This is too close to closing time.");
+            valid = false;
+        }
+        if (reservationDate.getHours() === 21) {
+            if (reservationDate.getMinutes() > 30) {
+                setShowAlertForTime("This is too close to closing time.");
+                valid = false;
+            }
+        }
+        if (reservationDate.getDay() === 2) {
+            setShowAlertForTuesdays("We are closed on Tuesdays!");
+            valid = false;
+        }
+        if (reservationDate.getTime() < currentDate.getTime()) {
             setShowAlertForPast("This date is in the past!");
+            valid = false;
         } 
-        if ((reservationDate.getDay() !== 1) && (reservationDate > currentDate)) {
+        if (valid === true) {
             const reservation = {
                 first_name, 
                 last_name, 
@@ -61,6 +92,11 @@ function NewReservation() {
         return (
             <div>
                 <div>
+                    {showAlertForTime && (
+                        <p className="alert alert-danger">
+                            {showAlertForTime}
+                        </p>
+                    )}
                     {showAlertForTuesdays && (
                         <p className="alert alert-danger">
                             {showAlertForTuesdays}

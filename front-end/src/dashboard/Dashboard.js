@@ -83,6 +83,9 @@ function Dashboard({ date }) {
             ))}
           </ul>
         </div>
+        <div>
+          RESERVATION BY AREA?
+        </div>
       </main>
     ); 
   } else {

@@ -110,8 +110,14 @@ function resHasPeopleCount(req, res, next) {
 }
 
 function resNotOnTuesday(req, res, next) {
-  const {data: {reservation_date}} = req.body;
-  if (new Date(reservation_date).getDay() === 1) {
+  const {data: {reservation_date, reservation_time}} = req.body;
+  let year = reservation_date.split("-")[0];
+  let month = reservation_date.split("-")[1] - 1;
+  let day = reservation_date.split("-")[2];
+  let hour = reservation_time.split(":")[0];
+  let min = reservation_time.split(":")[1];
+  const resDate = new Date(year, month, day, hour, min);
+  if (resDate.getDay() === 2) {
     next({
       status: 400,
       message: `This reservation_date is on a Tuesday and we are closed.`
@@ -121,14 +127,58 @@ function resNotOnTuesday(req, res, next) {
 }
 
 function resNotInPast(req, res, next) {
-  const {data: {reservation_date}} = req.body;
+  const {data: {reservation_date, reservation_time}} = req.body;
+  let year = reservation_date.split("-")[0];
+  let month = reservation_date.split("-")[1] - 1;
+  let day = reservation_date.split("-")[2];
+  let hour = reservation_time.split(":")[0];
+  let min = reservation_time.split(":")[1];
+  const resDate = new Date(year, month, day, hour, min);
   const currentDate = new Date();
-  const resDate = new Date(reservation_date);
-  if (resDate < currentDate) {
+  if (resDate.getTime() < currentDate.getTime()) {
     next({
       status: 400,
       message: `This reservation_date needs to be in the future!`
     });
+  }
+  return next();
+}
+
+function resInValidTime(req, res, next) {
+  const {data: {reservation_date, reservation_time}} = req.body;
+  let year = reservation_date.split("-")[0];
+  let month = reservation_date.split("-")[1] - 1;
+  let day = reservation_date.split("-")[2];
+  let hour = reservation_time.split(":")[0];
+  let min = reservation_time.split(":")[1];
+  const resDate = new Date(year, month, day, hour, min);
+  if (resDate.getHours() < 10) {
+    next({
+      status: 400, 
+      message: `This reservation_time is before we are open.`
+    });
+  }
+  if (resDate.getHours() === 10) {
+    if (resDate.getMinutes() < 30) {
+      next({
+        status: 400, 
+        message: `This reservation_time is before we are open.`
+      });
+    }
+  }
+  if (resDate.getHours() > 21) {
+    next({
+      status: 400, 
+      message: `This reservation_time is after we are closed.`
+    });
+  }
+  if (resDate.getHours() === 21) {
+    if (resDate.getMinutes() > 30) {
+      next({
+        status: 400,
+        message: `This reservation_time is after we are closed.`
+      });
+    }
   }
   return next();
 }
@@ -173,6 +223,7 @@ module.exports = {
     resHasPeopleCount,
     resNotOnTuesday,
     resNotInPast,
+    resInValidTime,
     asyncErrorBoundary(create),
   ],
 };
