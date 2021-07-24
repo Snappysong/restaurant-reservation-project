@@ -109,12 +109,34 @@ function resHasPeopleCount(req, res, next) {
   return next();
 }
 
+function resNotOnTuesday(req, res, next) {
+  const {data: {reservation_date}} = req.body;
+  if (new Date(reservation_date).getDay() === 1) {
+    next({
+      status: 400,
+      message: `This reservation_date is on a Tuesday and we are closed.`
+    });
+  }
+  return next();
+}
+
+function resNotInPast(req, res, next) {
+  const {data: {reservation_date}} = req.body;
+  const currentDate = new Date();
+  const resDate = new Date(reservation_date);
+  if (resDate < currentDate) {
+    next({
+      status: 400,
+      message: `This reservation_date needs to be in the future!`
+    });
+  }
+  return next();
+}
+
 //CRUD FUNCTIONS
 async function list(req, res) {
   const reservation_date = req.query;
-  console.log(reservation_date);
   const { viewDate, date } = reservation_date;
-  console.log(viewDate, date);
   if (date) {
     const data = await service.listReservationsOnDay(date);
     res.json({ data });  
@@ -149,6 +171,8 @@ module.exports = {
     resHasReservationDate,
     resHasReservationTime,
     resHasPeopleCount,
+    resNotOnTuesday,
+    resNotInPast,
     asyncErrorBoundary(create),
   ],
 };
