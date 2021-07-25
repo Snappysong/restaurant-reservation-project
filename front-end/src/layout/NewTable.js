@@ -1,16 +1,36 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { createTable } from "../utils/api";
 
 function NewTable() {
     const history = useHistory();
     const [table_name, setTable_name] = useState("");
     const [capacity, setCapacity] = useState(1);
+    const [showAlert, setShowAlert] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        //if table_name length is over 2
-        //create new table
-        //displays dashboard
+        setShowAlert("");
+        let valid = true;
+        if (table_name.length < 2) {
+            setShowAlert("Table name needs to be longer!")
+            valid = false;
+        }
+        if (capacity < 1) {
+            setShowAlert("This table needs more seats/capacity!")
+            valid = false;
+        }
+        if (valid === true) {
+            const table = {
+                table_name,
+                capacity,
+            }
+            createTable(table)
+            .then((response) => {
+                console.log(response)
+                history.push("/dashboard")
+            })
+        }
     }
 
     const handleCancel = (e) => {
@@ -20,6 +40,13 @@ function NewTable() {
 
     return (
         <div>
+            <div>
+                {showAlert && (
+                    <p className="alert alert-danger">
+                        {showAlert}
+                    </p>
+                )}
+            </div>
             <div>
                 <form onSubmit={handleSubmit}>
                     <label>Table Name:</label>

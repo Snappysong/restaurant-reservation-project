@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
+import { listReservations, listAllTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { previous, next } from "../utils/date-time";
 import ReservationDetail from "./ReservationDetail";
+import TableDetail from "./TableDetail";
 import { useLocation, useHistory } from "react-router-dom";
 
 /**
@@ -16,6 +17,9 @@ function Dashboard({ date }) {
   const [reservationsError, setReservationsError] = useState(null);
   const [viewDate, setViewDate] = useState(date);
 
+  const [tables, setTables] = useState([]);
+  const [tablesError, setTablesError] = useState(null);
+
   const history = useHistory();
   const location = useLocation();
   const searchedDate = location.search.slice(-10);
@@ -23,6 +27,7 @@ function Dashboard({ date }) {
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
+    setTablesError(null);
     if (viewDate === date) {
       listReservations({ date }, abortController.signal)
       .then(setReservations)
@@ -34,7 +39,11 @@ function Dashboard({ date }) {
     }
     if (searchedDate && searchedDate !== "") {
       setViewDate(searchedDate);
-    };
+    }
+    listAllTables()
+    .then(setTables)
+    .catch(setTablesError);
+
     return () => abortController.abort();
   }
 
@@ -83,8 +92,16 @@ function Dashboard({ date }) {
             ))}
           </ul>
         </div>
+        <ErrorAlert error={tablesError} />
         <div>
-          RESERVATION BY AREA?
+          <h4>Tables??</h4>
+          <ul>
+            {tables && tables.map((table) => (
+              <li key={table.table_id}>
+                <TableDetail table={table} />
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
     ); 

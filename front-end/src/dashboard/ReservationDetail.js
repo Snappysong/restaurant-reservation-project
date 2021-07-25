@@ -1,10 +1,10 @@
 import React from "react";
 
 function ReservationDetail({reservation}) {
-
+    const { reservation_id } = reservation;
     return (
         <div>
-            ID: {reservation.reservation_id}
+            ID: {reservation_id}
             <br />
             FIRST NAME: {reservation.first_name}
             <br />
@@ -18,6 +18,10 @@ function ReservationDetail({reservation}) {
             <br />
             #PEOPLE: {reservation.people}
             <br />
+
+            <button href={`/reservations/${reservation_id}/seat`}>
+                Seat
+            </button>
         </div>
     )
 }
