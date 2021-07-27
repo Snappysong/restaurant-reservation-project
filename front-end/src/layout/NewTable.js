@@ -5,7 +5,7 @@ import { createTable } from "../utils/api";
 function NewTable() {
     const history = useHistory();
     const [table_name, setTable_name] = useState("");
-    const [capacity, setCapacity] = useState(1);
+    const [capacity, setCapacity] = useState("");
     const [showAlert, setShowAlert] = useState("");
 
     const handleSubmit = (e) => {
@@ -16,6 +16,10 @@ function NewTable() {
             setShowAlert("Table name needs to be longer!")
             valid = false;
         }
+        if (isNaN(capacity)) {
+            setShowAlert("Capacity needs to be a valid number!")
+            valid = false;
+        }        
         if (capacity < 1) {
             setShowAlert("This table needs more seats/capacity!")
             valid = false;

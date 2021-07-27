@@ -30,14 +30,22 @@ function SeatReservation() {
         setResError(null);
         listReservations({ }, abortController.signal)
         .then(setRes)
+        .then(() => {
+            //why is this current not coming up?
+            console.log(params.reservation_id)
+            const current = res.find((obj) => 
+                obj.reservation_id === params.reservation_id
+            )
+            console.log(current)
+            setCurrentRes(current)
+        })
         .catch(setResError);
-        const current = res.find((res) => Number(res.reservation_id) === Number(params.reservation_id));
-        setCurrentRes(current);
+
         return () => abortController.abort();
     }
 
-    useEffect(loadTables, [res, params.reservation_id]);
-    useEffect(loadReservations, [res, params.reservation_id]);
+    useEffect(loadTables, []);
+    useEffect(loadReservations, [params.reservation_id]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -57,10 +65,7 @@ function SeatReservation() {
             };
             console.log(updatedTable)
             updateTable(updatedTable)
-            .then((response) => {
-                console.log(response)
-                history.push(`/dashboard`)
-            });
+            .then(history.push(`/dashboard`));
         }
     }
 
@@ -69,7 +74,8 @@ function SeatReservation() {
         history.goBack();
     }
 
-    if (tables && currentRes) {
+    console.log(tables, currentRes, res)
+    if (tables) {
         return (
             <div>
                 <ErrorAlert error={tablesError} />

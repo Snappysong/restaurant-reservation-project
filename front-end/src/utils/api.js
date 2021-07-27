@@ -97,11 +97,11 @@ export async function listAllTables(signal) {
 
 //does this work?
 export async function updateTable(updatedTable, signal) {
-  const url = `${API_BASE_URL}/tables/:table_id/seat`;
+  const url = `${API_BASE_URL}/tables/${updatedTable.table_id}/seat`;
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify(updatedTable),
+    body: JSON.stringify({data: updatedTable}),
     signal,
   };
   return await fetchJson(url, options, updatedTable);

@@ -3,6 +3,8 @@ const request = require("supertest");
 const app = require("../src/app");
 const knex = require("../src/db/connection");
 
+jest.setTimeout(60000); //NEEDED TO RUN TESTS WITH A LONGER TIMEOUT!
+
 describe("US-08 - Change an existing reservation", () => {
   beforeAll(() => {
     return knex.migrate

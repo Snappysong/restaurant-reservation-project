@@ -6,6 +6,8 @@ const fsPromises = fs.promises;
 const { createReservation } = require("./api");
 const { selectOptionByText } = require("./utils");
 
+jest.setTimeout(60000); //NEEDED TO RUN TESTS WITH A LONGER TIMEOUT!
+
 const baseURL = process.env.BASE_URL || "http://localhost:3000";
 
 const onPageConsole = (msg) =>
@@ -186,7 +188,7 @@ describe("US-04 - Seat reservation - E2E", () => {
 
       await Promise.all([
         page.click("[type=submit]"),
-        page.waitForNavigation({ waitUntil: "networkidle0" }),
+        page.waitForNavigation({ timeout: 0, waitUntil: "networkidle0" }),
       ]);
 
       await page.screenshot({

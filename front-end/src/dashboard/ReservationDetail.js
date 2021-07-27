@@ -1,8 +1,7 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function ReservationDetail({reservation}) {
-    const history = useHistory();
     const { reservation_id } = reservation;
     return (
         <div>
@@ -21,12 +20,11 @@ function ReservationDetail({reservation}) {
             #PEOPLE: {reservation.people}
             <br />
 
-            <button 
-            href={`/reservations/${reservation_id}/seat`}
-            onClick={(e) => history.push(`/reservations/${reservation_id}/seat`)}
+            <Link 
+            to={`/reservations/${reservation_id}/seat`}
             >
                 Seat
-            </button>
+            </Link>
         </div>
     )
 }
