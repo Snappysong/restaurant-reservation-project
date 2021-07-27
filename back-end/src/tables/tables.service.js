@@ -1,6 +1,13 @@
 const knex = require("../db/connection");
 
-function listAll() {
+function read(table_id) {
+    return knex("tables")
+        .select("*")
+        .where({ table_id: table_id })
+        .first();
+}
+
+function list() {
     return knex("tables")
         .select("*");
 }
@@ -12,8 +19,17 @@ function create(table) {
         .then((createdRecords) => createdRecords[0]);
 }
 
+function update(updatedTable) {
+    return knex("tables")
+        .select("*")
+        .where({ table_id: updatedTable.table_id })
+        .update(updatedTable, "*");
+}
+
 module.exports = {
-    listAll,
+    read,
+    list,
     create,
+    update,
 
 }

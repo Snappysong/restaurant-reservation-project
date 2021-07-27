@@ -95,20 +95,14 @@ export async function listAllTables(signal) {
   return await fetchJson(url, { signal }, []);
 }
 
-//double check this function
-export async function readReservation(reservation_id, signal) {
-  const url = `${API_BASE_URL}/reservations/${reservation_id}`;
-  return await fetchJson(url, { signal }, {});
-}
-
-  //double check this Update API function
-export async function updateReservation(updatedReservation, signal) {
-  const url = `${API_BASE_URL}/reservations/`;
+//does this work?
+export async function updateTable(updatedTable, signal) {
+  const url = `${API_BASE_URL}/tables/:table_id/seat`;
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify(updatedReservation),
+    body: JSON.stringify(updatedTable),
     signal,
   };
-  return await fetchJson(url, options, updatedReservation);
+  return await fetchJson(url, options, updatedTable);
 }
