@@ -10,7 +10,7 @@ function TableDetail( {table} ) {
             setTableStatus("Free");
         }
     }, [table.reservation_id])
-
+    //need table to change State when a table gets booked
 
     return (
         <div>

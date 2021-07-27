@@ -23,35 +23,35 @@ function SeatReservation() {
         .then(setTables)
         .catch(setTablesError);
         return () => abortController.abort();
-      }
+    }
 
     function loadReservations() {
         const abortController = new AbortController();
         setResError(null);
         listReservations({ }, abortController.signal)
         .then(setRes)
-        .then(() => {
-            //why is this current not coming up?
-            console.log(params.reservation_id)
-            const current = res.find((obj) => 
-                obj.reservation_id === params.reservation_id
-            )
-            console.log(current)
-            setCurrentRes(current)
-        })
         .catch(setResError);
-
         return () => abortController.abort();
     }
 
+    function assignResToCurrent() {
+            //why is this current not coming up?
+        console.log(params.reservation_id)
+        const current = res.find((obj) => 
+            (obj.reservation_id === params.reservation_id) ? obj : {}
+        )
+        console.log(current)
+        setCurrentRes(current)
+    }
+
     useEffect(loadTables, []);
-    useEffect(loadReservations, [params.reservation_id]);
+    useEffect(loadReservations, []);
+    useEffect(assignResToCurrent, [res, params.reservation_id]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setShowAlert("");
         let valid = true;
-        console.log(formValue)
         const tableObj = JSON.parse(formValue);
         console.log(tableObj);
         if (currentRes.people > tableObj.capacity) {
@@ -63,7 +63,6 @@ function SeatReservation() {
                 ...tableObj,
                 reservation_id: Number(params.reservation_id),
             };
-            console.log(updatedTable)
             updateTable(updatedTable)
             .then(history.push(`/dashboard`));
         }
@@ -74,7 +73,6 @@ function SeatReservation() {
         history.goBack();
     }
 
-    console.log(tables, currentRes, res)
     if (tables) {
         return (
             <div>

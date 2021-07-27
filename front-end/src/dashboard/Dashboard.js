@@ -27,7 +27,6 @@ function Dashboard({ date }) {
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
-    setTablesError(null);
     if (viewDate === date) {
       listReservations({ date }, abortController.signal)
       .then(setReservations)
@@ -40,14 +39,21 @@ function Dashboard({ date }) {
     if (searchedDate && searchedDate !== "") {
       setViewDate(searchedDate);
     }
+    return () => abortController.abort();
+  }
+
+  function loadTables() {
+    const abortController = new AbortController();
+    setTablesError(null);
     listAllTables()
     .then(setTables)
     .catch(setTablesError);
-
     return () => abortController.abort();
   }
 
   useEffect(loadDashboard, [date, viewDate, location.search, searchedDate]);
+  //this needs to change when table changes
+  useEffect(loadTables, [tables])
 
 
 //functions for buttons for changing days
