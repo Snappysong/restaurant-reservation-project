@@ -203,7 +203,7 @@ async function list(req, res) {
 async function read(req, res) {
   const { reservation_id } = req.params;
   const data = await service.read(reservation_id);
-  res.json({ data });
+  res.status(200).json({ data });
 }
 
 async function create(req, res) {
@@ -225,5 +225,9 @@ module.exports = {
     resNotInPast,
     resInValidTime,
     asyncErrorBoundary(create),
+  ],
+  read: [
+    resExists,
+    asyncErrorBoundary(read),
   ],
 };

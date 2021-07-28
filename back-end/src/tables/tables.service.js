@@ -3,13 +3,13 @@ const knex = require("../db/connection");
 function read(table_id) {
     return knex("tables")
         .select("*")
-        .where({ table_id: table_id })
-        .first();
+        .where({ table_id: table_id });
 }
 
 function list() {
     return knex("tables")
-        .select("*");
+        .select("*")
+        .orderBy("table_name");
 }
 
 function create(table) {
@@ -23,7 +23,8 @@ function update(updatedTable) {
     return knex("tables")
         .select("*")
         .where({ table_id: updatedTable.table_id })
-        .update(updatedTable, "*");
+        .update(updatedTable, "*")
+        .then((updatedRecords) => updatedRecords[0]);
 }
 
 module.exports = {
