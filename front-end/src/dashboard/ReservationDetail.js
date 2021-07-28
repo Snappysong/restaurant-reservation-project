@@ -22,8 +22,8 @@ function ReservationDetail({reservation}) {
                 <br />
             </div>
             <div>
-                <Link to={`/reservations/${reservation.reservation_id}/seat`}>
-                        Seat
+                <Link to={`/reservations/${reservation_id}/seat`}>
+                        "Seat"
                 </Link>
             </div>
         </div>

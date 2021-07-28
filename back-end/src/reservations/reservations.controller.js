@@ -199,7 +199,6 @@ async function list(req, res) {
   }
 }
 
-//check and export!
 async function read(req, res) {
   const { reservation_id } = req.params;
   const data = await service.read(reservation_id);
@@ -227,7 +226,7 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   read: [
-    resExists,
+    asyncErrorBoundary(resExists),
     asyncErrorBoundary(read),
   ],
 };

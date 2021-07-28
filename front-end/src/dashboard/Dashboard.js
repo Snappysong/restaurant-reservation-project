@@ -52,7 +52,6 @@ function Dashboard({ date }) {
   }
 
   useEffect(loadDashboard, [date, viewDate, location.search, searchedDate]);
-  //this needs to change when table changes
   useEffect(loadTables, [tables])
 
 

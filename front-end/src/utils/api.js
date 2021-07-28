@@ -95,7 +95,6 @@ export async function listAllTables(signal) {
   return await fetchJson(url, { signal }, []);
 }
 
-//does this work?
 export async function updateTable(updatedTable, signal) {
   const url = `${API_BASE_URL}/tables/${updatedTable.table_id}/seat`;
   const options = {
