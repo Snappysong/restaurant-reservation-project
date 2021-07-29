@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 function ReservationDetail({reservation}) {
     const { reservation_id } = reservation;
@@ -22,9 +21,9 @@ function ReservationDetail({reservation}) {
                 <br />
             </div>
             <div>
-                <Link to={`/reservations/${reservation_id}/seat`}>
+                <a href={`/reservations/${reservation_id}/seat`}>
                         "Seat"
-                </Link>
+                </a>
             </div>
         </div>
     )

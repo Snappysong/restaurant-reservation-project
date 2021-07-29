@@ -4,7 +4,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 import { previous, next } from "../utils/date-time";
 import ReservationDetail from "./ReservationDetail";
 import TableDetail from "./TableDetail";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, useRouteMatch } from "react-router-dom";
 
 /**
  * Defines the dashboard page.
@@ -13,13 +13,15 @@ import { useLocation, useHistory } from "react-router-dom";
  * @returns {JSX.Element}
  */
 function Dashboard({ date }) {
+
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [viewDate, setViewDate] = useState(date);
 
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
-
+  
+  const url = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
   const searchedDate = location.search.slice(-10);
@@ -51,8 +53,8 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
-  useEffect(loadDashboard, [date, viewDate, location.search, searchedDate]);
-  useEffect(loadTables, [tables])
+  useEffect(loadDashboard, [date, viewDate, location.search, searchedDate, url]);
+  useEffect(loadTables, [history, url]) //does this need to change for seating to update?
 
 
 //functions for buttons for changing days

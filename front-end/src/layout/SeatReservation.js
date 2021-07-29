@@ -35,12 +35,7 @@ function SeatReservation() {
     }
 
     function assignResToCurrent() {
-            //why is this current not coming up?
-        console.log(params.reservation_id)
-        const current = res.find((obj) => 
-            (obj.reservation_id === params.reservation_id) ? obj : {}
-        )
-        console.log(current)
+        const current = res.find((obj) => obj.reservation_id === Number(params.reservation_id))
         setCurrentRes(current)
     }
 
@@ -64,7 +59,13 @@ function SeatReservation() {
                 reservation_id: Number(params.reservation_id),
             };
             updateTable(updatedTable)
-            .then(history.push(`/dashboard`));
+            .then((response) => {
+                const newTables = tables.map((table) => {
+                    return table.table_id === response.table_id ? response : table
+                })
+                setTables(newTables);
+                history.push(`/dashboard`)
+            })
         }
     }
 

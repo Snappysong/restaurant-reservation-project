@@ -10,7 +10,7 @@ function TableDetail( {table} ) {
             setTableStatus("Free");
         }
     }, [table.reservation_id])
-    //need table to change State when a table gets booked, solved. withRouter in App
+    //need to change State when a table gets booked/updated, withRouter in App?
 
     const handleFinish = (e) => {
         e.preventDefault();
@@ -34,7 +34,9 @@ function TableDetail( {table} ) {
             <p data-table-id-status={`${table.table_id}`}>
             {tableStatus}
             </p>   
-            {tableStatus === "Free" ? (<div></div>) : (<div><button data-table-id-finish={table.table_id} onClick={handleFinish}>FINISH</button> <br /> <button onClick={handleCancel}>CANCEL</button></div>)}      
+            <div>
+                {tableStatus === "Free" ? (<div></div>) : (<div><button data-table-id-finish={table.table_id} onClick={handleFinish}>FINISH</button> <br /> <button onClick={handleCancel}>CANCEL</button></div>)} 
+            </div>
         </div>
     )
 }

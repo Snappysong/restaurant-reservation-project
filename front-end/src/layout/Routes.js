@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import NewReservation from "./NewReservation";
 import NewTable from "./NewTable";
 import SeatReservation from "./SeatReservation";
-
+import useQuery from "../utils/useQuery";
 /**
  * Defines all the routes for the application.
  *
@@ -16,6 +16,21 @@ import SeatReservation from "./SeatReservation";
  * @returns {JSX.Element}
  */
 function Routes() {
+  const [date, setDate] = useState(today());
+
+  const url = useRouteMatch();
+  const query = useQuery();
+
+  function loadDate() {
+    const newDate = query.get("date");
+    console.log(newDate);
+    if (newDate) {
+      setDate(newDate);
+    }
+  }
+
+  useEffect(loadDate, [url, query]);
+
   return (
     <Switch>
       <Route exact={true} path="/">
@@ -34,7 +49,7 @@ function Routes() {
         <NewTable />
       </Route>
       <Route path="/dashboard">
-        <Dashboard date={today()} />
+        <Dashboard date={date} />
       </Route>
       <Route path="/dashboard/:date">
         <Dashboard />
