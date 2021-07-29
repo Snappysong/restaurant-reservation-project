@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { clearTable } from "../utils/api";
 
 function TableDetail( {table} ) {
     const [tableStatus, setTableStatus] = useState("Free");
@@ -10,11 +11,18 @@ function TableDetail( {table} ) {
             setTableStatus("Free");
         }
     }, [table.reservation_id])
-    //need to change State when a table gets booked/updated, withRouter in App?
 
     const handleFinish = (e) => {
         e.preventDefault();
-        //display "Is this table ready to seat new guests? This cannot be undone."
+        const confirmBox = window.confirm(
+            "Is this table ready to seat new guests? This cannot be undone."
+        )
+        if (confirmBox === true) {
+            //do the delete call
+            const table_id = table.table_id;
+            console.log(table_id)
+            clearTable(Number(table_id))
+        }
         //users can choose "OK" to delete to tables/:table_id/seat
     }
 

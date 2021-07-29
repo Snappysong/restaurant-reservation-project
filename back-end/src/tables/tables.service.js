@@ -27,10 +27,17 @@ function update(updatedTable) {
         .then((updatedRecords) => updatedRecords[0]);
 }
 
+function clear(table_id) {
+    return knex("tables")
+        .where({ table_id: table_id })
+        .del(reservation_id, "*")
+        .then((updatedRecords) => updatedRecords[0]);
+}
+
 module.exports = {
     read,
     list,
     create,
     update,
-
+    clear,
 }

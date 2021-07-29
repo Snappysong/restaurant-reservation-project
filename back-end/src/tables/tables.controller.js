@@ -4,7 +4,7 @@ const reservationsService = require("../reservations/reservations.service");
 
 async function tableExists(req, res, next) {
     const id = req.params.table_id;
-    const table = await tablesService.read(id);
+    const table = await tablesService.read(Number(id));
     if (table) {
         res.locals.table = table;
         return next();
@@ -97,6 +97,21 @@ async function sufficientCapacity(req, res, next) {
     return next();
 }
 
+function tableIsNotOccupied(req, res, next) {
+    const table = res.locals.table;
+    console.log(table);
+    const currentTable = table[0]
+    console.log(currentTable)
+    //reservation_id not defined?!?!
+    if (!currentTable.reservation_id) {
+        next({
+            status: 400,
+            message: `This table is not occupied.`
+        });
+    }
+    return next();
+}
+
 async function list(req, res) {
     const data = await tablesService.list();
     res.json({ data });
@@ -117,6 +132,13 @@ async function update(req, res) {
     res.status(200).json({ data });
 }
 
+async function clear(req, res) {
+    const table = res.locals.table;
+    console.log(table[0].table_id)
+    const data = await tablesService.clear(Number(table[0].table_id));
+    res.status(204).json({ data });
+}
+
 module.exports = {
     list: [asyncErrorBoundary(list)],
     create: [
@@ -134,5 +156,10 @@ module.exports = {
         asyncErrorBoundary(isOccupied),
         asyncErrorBoundary(update),
     ],
+    clear: [
+        asyncErrorBoundary(tableExists),
+        tableIsNotOccupied,
+        asyncErrorBoundary(clear),
 
+    ],
 }
