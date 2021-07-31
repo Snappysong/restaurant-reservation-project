@@ -48,7 +48,6 @@ function SeatReservation() {
         setShowAlert("");
         let valid = true;
         const tableObj = JSON.parse(formValue);
-        console.log(tableObj);
         if (currentRes.people > tableObj.capacity) {
             setShowAlert("This table is too small for this reservation!");
             valid = false;

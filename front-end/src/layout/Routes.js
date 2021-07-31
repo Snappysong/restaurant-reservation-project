@@ -23,7 +23,6 @@ function Routes() {
 
   function loadDate() {
     const newDate = query.get("date");
-    console.log(newDate);
     if (newDate) {
       setDate(newDate);
     }

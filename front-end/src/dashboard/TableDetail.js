@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { clearTable } from "../utils/api";
 
 function TableDetail( {table} ) {
+    const history = useHistory();
+    const [currentTable, setCurrentTable] = useState(table);
     const [tableStatus, setTableStatus] = useState("Free");
 
     useEffect(() => {
-        if (table.reservation_id) {
-            setTableStatus(`Occupied by reservation ID: ${table.reservation_id}`)
+        if (currentTable.reservation_id) {
+            setTableStatus(`Occupied by reservation ID: ${currentTable.reservation_id}`)
         } else {
             setTableStatus("Free");
         }
-    }, [table.reservation_id])
+    }, [currentTable])
 
     const handleFinish = (e) => {
         e.preventDefault();
@@ -19,9 +22,18 @@ function TableDetail( {table} ) {
         )
         if (confirmBox === true) {
             //do the delete call
-            const table_id = table.table_id;
-            console.log(table_id)
-            clearTable(Number(table_id))
+            console.log(currentTable);
+            clearTable(currentTable)
+            .then((response) => {
+                console.log(response)
+                setCurrentTable(response)
+                history.go(0);
+            })
+            //NEED to refresh page
+            // .then((response) => {
+            //     console.log(response);
+            //     setCurrentTable(response);
+            // })
         }
         //users can choose "OK" to delete to tables/:table_id/seat
     }

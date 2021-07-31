@@ -3,7 +3,8 @@ const knex = require("../db/connection");
 function read(table_id) {
     return knex("tables")
         .select("*")
-        .where({ table_id: table_id });
+        .where({ table_id: table_id })
+        .then((result) => result[0]);
 }
 
 function list() {
@@ -16,7 +17,7 @@ function create(table) {
     return knex("tables")
         .insert(table)
         .returning("*")
-        .then((createdRecords) => createdRecords[0]);
+        .then((result) => result[0]);
 }
 
 function update(updatedTable) {
@@ -24,14 +25,15 @@ function update(updatedTable) {
         .select("*")
         .where({ table_id: updatedTable.table_id })
         .update(updatedTable, "*")
-        .then((updatedRecords) => updatedRecords[0]);
+        .then((result) => result[0]);
 }
 
 function clear(table_id) {
     return knex("tables")
+        .select("*")
         .where({ table_id: table_id })
-        .del(reservation_id, "*")
-        .then((updatedRecords) => updatedRecords[0]);
+        .update({ reservation_id: null }, "*")
+        .then((result) => result[0]);
 }
 
 module.exports = {

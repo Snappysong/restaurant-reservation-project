@@ -1,18 +1,35 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const tablesService = require("./tables.service");
 const reservationsService = require("../reservations/reservations.service");
+const { table } = require("../db/connection");
 
 async function tableExists(req, res, next) {
     const id = req.params.table_id;
     const table = await tablesService.read(Number(id));
     if (table) {
         res.locals.table = table;
+        res.locals.table_id = table.table_id;
         return next();
     }
     return next({
         status: 404,
-        message: 'Table cannot be found.'
+        message: `Table with ID: ${id} cannot be found.`
     });
+}
+
+//TEST IS STOPPING HERE!
+async function tableExistsToClear(req, res, next) {
+    const {data: {table_id} }= req.body;
+    console.log(table_id);
+    const table = await tablesService.read(Number(table_id));
+    if (table) {
+        res.locals.table = table;
+        return next();
+    };
+    return next({
+        status: 404,
+        message: `Table with ID: ${table_id} cannot be found.`
+    })
 }
 
 function tableHasData(req, res, next) {
@@ -74,7 +91,7 @@ async function resIdExists(req, res, next) {
 async function isOccupied(req, res, next) {
     const table_id = req.params.table_id;
     const check = await tablesService.read(table_id);
-    if (check[0].reservation_id) {
+    if (check.reservation_id) {
         next({
             status: 400,
             message: `This table is occupied.`
@@ -84,11 +101,11 @@ async function isOccupied(req, res, next) {
 }
 
 async function sufficientCapacity(req, res, next) {
-    const table_id = req.params.table_id;
+    const {data: {table_id}} = req.body;
     const table = await tablesService.read(table_id);
     const {data: { reservation_id}} = req.body;
     const reservation = await reservationsService.read(reservation_id);
-    if (reservation.people > table[0].capacity) {
+    if (reservation.people > table.capacity) {
         next({
             status: 400,
             message: `This table doesn't have enough capacity.`
@@ -97,13 +114,11 @@ async function sufficientCapacity(req, res, next) {
     return next();
 }
 
-function tableIsNotOccupied(req, res, next) {
-    const table = res.locals.table;
-    console.log(table);
-    const currentTable = table[0]
-    console.log(currentTable)
-    //reservation_id not defined?!?!
-    if (!currentTable.reservation_id) {
+async function tableIsNotOccupied(req, res, next) {
+    const id = res.locals.table_id;
+    const table = await tablesService.read(id);
+    console.log(table)
+    if (!table.reservation_id) {
         next({
             status: 400,
             message: `This table is not occupied.`
@@ -114,6 +129,11 @@ function tableIsNotOccupied(req, res, next) {
 
 async function list(req, res) {
     const data = await tablesService.list();
+    res.json({ data });
+}
+
+function read(req, res) {
+    const data = res.locals.table;
     res.json({ data });
 }
 
@@ -133,14 +153,21 @@ async function update(req, res) {
 }
 
 async function clear(req, res) {
-    const table = res.locals.table;
-    console.log(table[0].table_id)
-    const data = await tablesService.clear(Number(table[0].table_id));
-    res.status(204).json({ data });
+    //WHAT IS THIS ID? WHY WONT IT CONSOLELOG?
+    const id = res.locals.table_id;
+    const table = await tablesService.read(id);
+    console.log(id);
+    console.log(table);
+    const data = await tablesService.clear(Number(table.table_id));
+    res.status(200).json({ data });
 }
 
 module.exports = {
     list: [asyncErrorBoundary(list)],
+    read: [
+        asyncErrorBoundary(tableExists),
+        read,
+    ],
     create: [
         tableHasData,
         tableHasName,
@@ -156,9 +183,9 @@ module.exports = {
         asyncErrorBoundary(isOccupied),
         asyncErrorBoundary(update),
     ],
-    clear: [
+    delete: [
         asyncErrorBoundary(tableExists),
-        tableIsNotOccupied,
+        asyncErrorBoundary(tableIsNotOccupied),
         asyncErrorBoundary(clear),
 
     ],

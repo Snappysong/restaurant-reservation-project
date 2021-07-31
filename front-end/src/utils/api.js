@@ -106,19 +106,13 @@ export async function updateTable(updatedTable, signal) {
   return await fetchJson(url, options, updatedTable);
 }
 
-// export async function clearTable(tableToClear, signal) {
-//   const url = `${API_BASE_URL}/tables/${tableToClear.table_id}/seat`;
-//   const options = {
-//     method: "DELETE",
-//     headers,
-//     body: JSON.stringify({data: tableToClear}),
-//     signal,
-//   };
-//   return await fetchJson(url, options, tableToClear);
-// }
-
-export async function clearTable(tableToClear, signal) {
-  const url = `${API_BASE_URL}/tables/${tableToClear.table_id}/seat`;
-  const options = { method: "DELETE", signal };
-  return await fetchJson(url, options);
+export async function clearTable(table, signal) {
+  const url = `${API_BASE_URL}/tables/${table.table_id}/seat`;
+  const options = { 
+    method: "DELETE", 
+    headers,
+    body: JSON.stringify({ data: table }),
+    signal 
+  };
+  return await fetchJson(url, options, table);
 }
