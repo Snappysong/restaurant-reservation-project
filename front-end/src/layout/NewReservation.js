@@ -67,6 +67,7 @@ function NewReservation() {
                 reservation_date,
                 reservation_time,
                 people,
+                status: "booked",
             }
             createReservation(reservation)
             .then((response) => {

@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { updateReservation } from "../utils/api";
 
 function ReservationDetail({reservation}) {
     const { reservation_id } = reservation;
+
+    const [showSeat, setShowSeat] = useState(false);
+
+    useEffect(() => {
+        if (reservation.status === "booked") {
+            setShowSeat(true);
+        }
+    }, [reservation])
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        setShowSeat(false);
+        const updatedReservation = {
+            ...reservation,
+            status: "seated",
+        };
+        updateReservation(updatedReservation)
+        .then((response) => {
+            console.log(response);
+        })
+    }
+
     return (
         <div>
             <div>
@@ -19,11 +42,17 @@ function ReservationDetail({reservation}) {
                 <br />
                 #PEOPLE: {reservation.people}
                 <br />
+                This Table is...
+                <p data-reservation-id-status={reservation_id}> {reservation.status} </p>
             </div>
             <div>
-                <a href={`/reservations/${reservation_id}/seat`}>
+                {showSeat ? <a 
+                            href={`/reservations/${reservation_id}/seat`}
+                            onClick={handleClick}
+                            >
                         "Seat"
-                </a>
+                            </a> : <div></div>}
+                
             </div>
         </div>
     )

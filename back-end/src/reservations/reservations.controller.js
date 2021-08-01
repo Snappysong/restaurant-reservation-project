@@ -18,6 +18,20 @@ async function resExists(req, res, next) {
   });
 }
 
+async function resExistsforUpdate(req, res, next) {
+  const {data: {reservation_id}} = req.body;
+  const reservation = await service.read(reservation_id);
+  console.log(reservation);
+  if (reservation) {
+    res.locals.reservation = reservation;
+    return next();
+  }
+  next({
+    status: 404,
+    message: `Reservation id does not exist foo: ${reservation_id}.`
+  });
+}
+
 function resHasData(req, res, next) {
   const {data} = req.body;
   if (!data) {
@@ -210,6 +224,17 @@ async function create(req, res) {
   res.status(201).json({ data })
 }
 
+async function update(req, res) {
+  const reservation = req.body.data;
+  const resID = reservation.reservation_id;
+  const updatedReservation = {
+    ...reservation,
+    reservation_id: resID,
+  }
+  const data = await service.update(updatedReservation)
+  res.status(200).json({ data });
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -228,5 +253,9 @@ module.exports = {
   read: [
     asyncErrorBoundary(resExists),
     asyncErrorBoundary(read),
+  ],
+  update: [
+    asyncErrorBoundary(resExistsforUpdate),
+    asyncErrorBoundary(update),
   ],
 };

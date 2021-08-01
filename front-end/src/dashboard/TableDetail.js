@@ -21,6 +21,7 @@ function TableDetail( {table} ) {
             "Is this table ready to seat new guests? This cannot be undone."
         )
         if (confirmBox === true) {
+            //change res status to finished
             clearTable(currentTable)
             .then((response) => {
                 console.log(response)
