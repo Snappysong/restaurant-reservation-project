@@ -1,35 +1,19 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const tablesService = require("./tables.service");
 const reservationsService = require("../reservations/reservations.service");
-const { table } = require("../db/connection");
+
 
 async function tableExists(req, res, next) {
     const id = req.params.table_id;
     const table = await tablesService.read(Number(id));
     if (table) {
         res.locals.table = table;
-        res.locals.table_id = table.table_id;
         return next();
     }
     return next({
         status: 404,
         message: `Table with ID: ${id} cannot be found.`
     });
-}
-
-//TEST IS STOPPING HERE!
-async function tableExistsToClear(req, res, next) {
-    const {data: {table_id} }= req.body;
-    console.log(table_id);
-    const table = await tablesService.read(Number(table_id));
-    if (table) {
-        res.locals.table = table;
-        return next();
-    };
-    return next({
-        status: 404,
-        message: `Table with ID: ${table_id} cannot be found.`
-    })
 }
 
 function tableHasData(req, res, next) {
@@ -101,11 +85,11 @@ async function isOccupied(req, res, next) {
 }
 
 async function sufficientCapacity(req, res, next) {
-    const {data: {table_id}} = req.body;
-    const table = await tablesService.read(table_id);
+    const table = res.locals.table;
+    const currentTable = await tablesService.read(table.table_id);
     const {data: { reservation_id}} = req.body;
     const reservation = await reservationsService.read(reservation_id);
-    if (reservation.people > table.capacity) {
+    if (reservation.people > currentTable.capacity) {
         next({
             status: 400,
             message: `This table doesn't have enough capacity.`
@@ -115,10 +99,9 @@ async function sufficientCapacity(req, res, next) {
 }
 
 async function tableIsNotOccupied(req, res, next) {
-    const id = res.locals.table_id;
-    const table = await tablesService.read(id);
-    console.log(table)
-    if (!table.reservation_id) {
+    const table = res.locals.table;
+    const currentTable = await tablesService.read(table.table_id);
+    if (!currentTable.reservation_id) {
         next({
             status: 400,
             message: `This table is not occupied.`
@@ -153,12 +136,9 @@ async function update(req, res) {
 }
 
 async function clear(req, res) {
-    //WHAT IS THIS ID? WHY WONT IT CONSOLELOG?
-    const id = res.locals.table_id;
-    const table = await tablesService.read(id);
-    console.log(id);
-    console.log(table);
-    const data = await tablesService.clear(Number(table.table_id));
+    const table = res.locals.table;
+    const id = table.table_id;
+    const data = await tablesService.clear(Number(id));
     res.status(200).json({ data });
 }
 

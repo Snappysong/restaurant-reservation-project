@@ -21,26 +21,17 @@ function TableDetail( {table} ) {
             "Is this table ready to seat new guests? This cannot be undone."
         )
         if (confirmBox === true) {
-            //do the delete call
-            console.log(currentTable);
             clearTable(currentTable)
             .then((response) => {
                 console.log(response)
                 setCurrentTable(response)
                 history.go(0);
             })
-            //NEED to refresh page
-            // .then((response) => {
-            //     console.log(response);
-            //     setCurrentTable(response);
-            // })
         }
-        //users can choose "OK" to delete to tables/:table_id/seat
     }
 
     const handleCancel = (e) => {
         e.preventDefault();
-
     }
 
     return (
