@@ -105,7 +105,7 @@ function Dashboard({ date }) {
           <ul>
             {tables && tables.map((table) => (
               <li key={table.table_id}>
-                <TableDetail table={table} />
+                <TableDetail table={table} reservations={reservations}/>
               </li>
             ))}
           </ul>

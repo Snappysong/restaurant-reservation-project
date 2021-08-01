@@ -8,7 +8,8 @@ exports.up = function(knex) {
       table
         .foreign("reservation_id")
         .references("reservation_id")
-        .inTable("reservations");
+        .inTable("reservations")
+        .onDelete("cascade");
 
   })
 };

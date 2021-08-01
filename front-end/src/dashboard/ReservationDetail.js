@@ -1,53 +1,57 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { updateReservation } from "../utils/api";
 
 function ReservationDetail({reservation}) {
-    const { reservation_id } = reservation;
+    const history = useHistory();
 
+    const [currentReservation, setCurrentReservation] = useState(reservation);
     const [showSeat, setShowSeat] = useState(false);
 
     useEffect(() => {
-        if (reservation.status === "booked") {
+        if (currentReservation.status === "booked" || currentReservation.status === null) {
             setShowSeat(true);
         }
-    }, [reservation])
+    }, [currentReservation])
 
     const handleClick = (e) => {
         e.preventDefault();
         setShowSeat(false);
         const updatedReservation = {
-            ...reservation,
+            ...currentReservation,
             status: "seated",
         };
         updateReservation(updatedReservation)
         .then((response) => {
-            console.log(response);
+            console.log(response)
+            setCurrentReservation(response)
+            history.push(`/reservations/${currentReservation.reservation_id}/seat`)
         })
     }
 
     return (
         <div>
             <div>
-                ID: {reservation_id}
+                ID: {currentReservation.reservation_id}
                 <br />
-                FIRST NAME: {reservation.first_name}
+                FIRST NAME: {currentReservation.first_name}
                 <br />
-                LAST NAME: {reservation.last_name}
+                LAST NAME: {currentReservation.last_name}
                 <br />
-                PHONE NUMBER: {reservation.mobile_number}
+                PHONE NUMBER: {currentReservation.mobile_number}
                 <br />
-                DATE: {reservation.reservation_date}
+                DATE: {currentReservation.reservation_date}
                 <br />
-                TIME: {reservation.reservation_time}
+                TIME: {currentReservation.reservation_time}
                 <br />
-                #PEOPLE: {reservation.people}
+                #PEOPLE: {currentReservation.people}
                 <br />
                 This Table is...
-                <p data-reservation-id-status={reservation_id}> {reservation.status} </p>
+                <p data-reservation-id-status={currentReservation.reservation_id}>{currentReservation.status ? currentReservation.status : "booked"}</p>
             </div>
             <div>
                 {showSeat ? <a 
-                            href={`/reservations/${reservation_id}/seat`}
+                            href={`/reservations/${currentReservation.reservation_id}/seat`}
                             onClick={handleClick}
                             >
                         "Seat"

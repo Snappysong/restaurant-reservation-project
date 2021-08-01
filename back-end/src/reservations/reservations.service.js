@@ -2,8 +2,7 @@ const knex = require("../db/connection");
 
 
 function list() {
-    return knex("reservations")
-        .select("*");
+    return knex("reservations");
   }
 
 function listReservationsOnDay(reservation_date) {
@@ -17,23 +16,23 @@ function read(reservation_id) {
     return knex("reservations")
         .select("*")
         .where({ reservation_id: reservation_id })
-        .first();
+        .then((result) => result[0]);
 }
   
 function create(reservation) {
     return knex("reservations")
       .insert(reservation)
       .returning("*")
-      .then((createdRecords) => createdRecords[0]);
+      .then((result) => result[0]);
 }
 
 function update(updatedReservation) {
     return knex("reservations")
-        .select("*")
         .where({ reservation_id: updatedReservation.reservation_id })
         .update(updatedReservation, "*")
         .then((result) => result[0]);
 }
+
 
 module.exports = {
     create,
@@ -42,5 +41,5 @@ module.exports = {
     read,
     update,
 
-  };
+};
   

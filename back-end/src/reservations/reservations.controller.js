@@ -21,7 +21,6 @@ async function resExists(req, res, next) {
 async function resExistsforUpdate(req, res, next) {
   const {data: {reservation_id}} = req.body;
   const reservation = await service.read(reservation_id);
-  console.log(reservation);
   if (reservation) {
     res.locals.reservation = reservation;
     return next();
