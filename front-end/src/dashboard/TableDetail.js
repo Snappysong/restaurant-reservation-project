@@ -6,7 +6,7 @@ function TableDetail( {table, reservations} ) {
     const history = useHistory();
     const [currentTable, setCurrentTable] = useState(table);
     const [tableStatus, setTableStatus] = useState("Free");
-    const [currentReservation, setCurrentReservation] = useState({});
+    // const [currentReservation, setCurrentReservation] = useState({});
 
     useEffect(() => {
         if (currentTable.reservation_id) {
@@ -23,19 +23,19 @@ function TableDetail( {table, reservations} ) {
         )
         if (confirmBox === true) {
             //change res status to finished
-            setCurrentReservation(reservations.find((res) => res.reservation_id === currentTable.reservation_id))
+            // setCurrentReservation(reservations.find((res) => res.reservation_id === currentTable.reservation_id))
             //make updated reservation
             //update the reservation
             //set response as the new current res
-            const updatedReservation = {
-                ...currentReservation,
-                status: "finished",
-            };
-            updateReservation(updatedReservation)
-            .then((response) => {
-                console.log(response)
-                setCurrentReservation(response)
-            })
+            // const updatedReservation = {
+            //     ...currentReservation,
+            //     status: "finished",
+            // };
+            // updateReservation(updatedReservation)
+            // .then((response) => {
+            //     console.log(response)
+            //     setCurrentReservation(response)
+            // })
             clearTable(currentTable)
             .then((response) => {
                 console.log(response)

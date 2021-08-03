@@ -23,6 +23,9 @@ router
 router
     .route("/:reservation_id/status")
     .put(controller.update)
+    .put(controller.updateStatusToBooked)
+    .put(controller.updateStatusToSeated)
+    .put(controller.updateStatusToFinished)
     .all(methodNotAllowed)
 
 module.exports = router;

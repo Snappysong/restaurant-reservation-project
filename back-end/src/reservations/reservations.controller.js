@@ -196,6 +196,17 @@ function resInValidTime(req, res, next) {
   return next();
 }
 
+function resStatusIsValid(req, res, next) {
+  const {data: {status}} = req.body;
+  if (status !== "booked") {
+    next({
+      status: 400,
+      message: `This status cannot be "seated" or "finished".`
+    });
+  }
+  return next();
+}
+
 //CRUD FUNCTIONS
 async function list(req, res) {
   const reservation_date = req.query;
@@ -247,6 +258,7 @@ module.exports = {
     resNotOnTuesday,
     resNotInPast,
     resInValidTime,
+    resStatusIsValid,
     asyncErrorBoundary(create),
   ],
   read: [
@@ -257,4 +269,16 @@ module.exports = {
     asyncErrorBoundary(resExistsforUpdate),
     asyncErrorBoundary(update),
   ],
+  updateStatusToBooked: [
+    asyncErrorBoundary(resExists),
+
+  ],
+  updateStatusToSeated: [
+    asyncErrorBoundary(resExists),
+
+  ],
+  updateStatusToFinished: [
+    asyncErrorBoundary(resExists),
+    
+  ]
 };
