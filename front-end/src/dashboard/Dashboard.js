@@ -54,7 +54,7 @@ function Dashboard({ date }) {
   }
 
   useEffect(loadDashboard, [date, viewDate, location.search, searchedDate, url]);
-  useEffect(loadTables, [history, url]) //does this need to change for seating to update?
+  useEffect(loadTables, [history, url]) 
 
 
 //functions for buttons for changing days

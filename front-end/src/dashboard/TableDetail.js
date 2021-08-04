@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { deleteReservationId } from "../utils/api";
+import { deleteReservationId, updateReservationStatus } from "../utils/api";
 
 function TableDetail( {table, reservations} ) {
     const history = useHistory();
@@ -11,10 +11,11 @@ function TableDetail( {table, reservations} ) {
     useEffect(() => {
         if (currentTable.reservation_id) {
             setTableStatus(`Occupied by reservation ID: ${currentTable.reservation_id}`)
+            setCurrentReservation(reservations.find((res) => res.reservation_id === currentTable.reservation_id))
         } else {
             setTableStatus("Free");
         }
-    }, [currentTable])
+    }, [currentTable, reservations])
 
     const handleFinish = (e) => {
         e.preventDefault();
@@ -22,29 +23,17 @@ function TableDetail( {table, reservations} ) {
             "Is this table ready to seat new guests? This cannot be undone."
         )
         if (confirmBox === true) {
-            //change res status to finished
-            setCurrentReservation(reservations.find((res) => res.reservation_id === currentTable.reservation_id))
-            //make updated reservation
-            //update the reservation
-            //set response as the new current res
-            // const updatedReservation = {
-            //     ...currentReservation,
-            //     status: "finished",
-            // };
-            // updateReservation(updatedReservation)
-            // .then((response) => {
-            //     console.log(response)
-            //     setCurrentReservation(response)
-            // })
-            // clearTable(currentTable)
-            // .then((response) => {
-            //     console.log(response)
-            //     setCurrentTable(response)
-            //     history.go(0);
-            // })
+            const updateToFinished = {
+                status: "finished",
+            };
+            updateReservationStatus(updateToFinished, currentReservation.reservation_id)
+            .then((response) => {
+                console.log(response)
+                setCurrentReservation(response)
+            })
             deleteReservationId(currentTable.table_id)
             .then((response) => {
-                console.log(repsonse)
+                console.log(response)
                 setCurrentTable(response)
                 history.go(0);
             })

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { updateReservation } from "../utils/api";
+import { updateReservationStatus } from "../utils/api";
 
 function ReservationDetail({reservation}) {
     const history = useHistory();
@@ -17,11 +17,10 @@ function ReservationDetail({reservation}) {
     const handleClick = (e) => {
         e.preventDefault();
         setShowSeat(false);
-        const updatedReservation = {
-            ...currentReservation,
+        const updateToSeated = {
             status: "seated",
         };
-        updateReservation(updatedReservation)
+        updateReservationStatus(updateToSeated, currentReservation.reservation_id)
         .then((response) => {
             console.log(response)
             setCurrentReservation(response)
