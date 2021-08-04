@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listReservations, listAllTables } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { previous, next } from "../utils/date-time";
 import ReservationDetail from "./ReservationDetail";
@@ -47,7 +47,7 @@ function Dashboard({ date }) {
   function loadTables() {
     const abortController = new AbortController();
     setTablesError(null);
-    listAllTables()
+    listTables()
     .then(setTables)
     .catch(setTablesError);
     return () => abortController.abort();

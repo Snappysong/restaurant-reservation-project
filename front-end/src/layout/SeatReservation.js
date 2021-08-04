@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { listAllTables, listReservations, updateTable } from "../utils/api";
+import { listTables, listReservations, updateSeatReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 
 
@@ -19,7 +19,7 @@ function SeatReservation() {
     function loadTables() {
         const abortController = new AbortController();
         setTablesError(null);
-        listAllTables()
+        listTables()
         .then(setTables)
         .catch(setTablesError);
         return () => abortController.abort();
@@ -53,11 +53,7 @@ function SeatReservation() {
             valid = false;
         }
         if (valid === true) {
-            const updatedTable = {
-                ...tableObj,
-                reservation_id: Number(params.reservation_id),
-            };
-            updateTable(updatedTable)
+            updateSeatReservation(tableObj.table_id, params.reservation_id)
             .then((response) => {
                 const newTables = tables.map((table) => {
                     return table.table_id === response.table_id ? response : table
