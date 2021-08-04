@@ -164,7 +164,7 @@ describe("US-08 - Change an existing reservation - E2E", () => {
 
       await Promise.all([
         cancelButton.click(),
-        page.waitForNavigation({ waitUntil: "networkidle0" }),
+        page.waitForNavigation({ timeout: 0, waitUntil: "networkidle0" }),
       ]);
 
       await page.screenshot({
@@ -195,7 +195,7 @@ describe("US-08 - Change an existing reservation - E2E", () => {
 
       await Promise.all([
         submitButton.click(),
-        page.waitForNavigation({ waitUntil: "networkidle0" }),
+        page.waitForNavigation({ timeout: 0, waitUntil: "networkidle0" }),
       ]);
 
       expect(page.url()).toContain("/dashboard");
