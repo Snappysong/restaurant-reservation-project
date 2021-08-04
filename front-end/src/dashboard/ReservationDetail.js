@@ -28,6 +28,24 @@ function ReservationDetail({reservation}) {
         })
     }
 
+    const handleCancelRes = (e) => {
+        e.preventDefault();
+        const confirmBox = window.confirm(
+            "Do you want to cancel this reservation? This cannot be undone."
+        );
+        if (confirmBox === true) {
+            const updatedToCancelled = {
+                status: "cancelled",
+            };
+            updateReservationStatus(updatedToCancelled, currentReservation.reservation_id)
+            .then((response) => {
+                console.log(response)
+                setCurrentReservation(response)
+                history.go(0)
+            })
+        }
+    }
+
     return (
         <div>
             <div>
@@ -56,6 +74,17 @@ function ReservationDetail({reservation}) {
                         "Seat"
                             </a> : <div></div>}
                 
+            </div>
+            <div>
+                <a href={`/reservations/${currentReservation.reservation_id}/edit`}>
+                    EDIT
+                </a>
+            </div>
+            <div>
+                <button data-reservation-id-cancel={currentReservation.reservation_id}
+                        onClick={handleCancelRes}>
+                    Cancel Reservation
+                </button>
             </div>
         </div>
     )
