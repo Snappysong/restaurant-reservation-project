@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ReservationDetail from "../dashboard/ReservationDetail";
 
 function SearchPhone() {
     const [mobile_number, setMobile_number] = useState("")
-    const [reservations, setReservations] = useState([])
+    const [reservations, setReservations] = useState(null)
     const [showError, setShowError] = useState(false)
 
     const handleSubmit = (e) => {
@@ -17,10 +17,13 @@ function SearchPhone() {
             console.log(response)
             setReservations(response);
         })
-        if (reservations.length === 0) {
+    }
+
+    useEffect(() => {
+        if (reservations && reservations.length === 0) {
             setShowError(true);
         }
-    }
+    }, [reservations])
 
     return (
         <div>

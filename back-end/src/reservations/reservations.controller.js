@@ -3,6 +3,7 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 const onlyValidProperties = require("../errors/onlyValidProperties");
 
+// SET UP FOR VALIDATION
 const REQUIRED_PROPERTIES = [
   "first_name",
   "last_name",
@@ -28,7 +29,6 @@ const UPDATE_REQUIRED_PROPERTIES = [
   "reservation_date",
   "reservation_time",
 ];
-
 const UPDATE_VALID_PROPERTIES = [
   "reservation_id",
   "status",
@@ -42,7 +42,6 @@ const UPDATE_VALID_PROPERTIES = [
   "reservation_time",
 ];
 
-//! <<------- VALIDATION ------->>
 const hasOnlyValidProperties = onlyValidProperties(VALID_PROPERTIES);
 const hasRequiredProperties = hasProperties(REQUIRED_PROPERTIES);
 const hasOnlyValidUpdateProperties = onlyValidProperties(
@@ -52,10 +51,10 @@ const hasRequiredUpdateProperties = hasProperties(UPDATE_REQUIRED_PROPERTIES);
 const hasOnlyStatus = onlyValidProperties(["status"]);
 const hasRequiredStatus = hasProperties(["status"]);
 
+// MIDDLEWARE FUNCTIONS
 async function reservationExists(req, res, next) {
   const { reservationId } = req.params;
   const reservation = await service.read(reservationId);
-
   if (reservation) {
     res.locals.reservation = reservation;
     return next();
@@ -81,7 +80,6 @@ function reservationIdIsCorrectIfPresent(req, res, next) {
 function hasValidDate(req, res, next) {
   const date = req.body.data.reservation_date;
   const valid = Date.parse(date);
-
   if (valid) {
     return next();
   }
@@ -95,7 +93,6 @@ function hasValidTime(req, res, next) {
   const regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
   const time = req.body.data.reservation_time;
   const valid = time.match(regex);
-
   if (valid) {
     return next();
   }
@@ -108,7 +105,6 @@ function hasValidTime(req, res, next) {
 function hasValidPeople(req, res, next) {
   const people = req.body.data.people;
   const valid = Number.isInteger(people);
-
   if (valid && people > 0) {
     return next();
   }
@@ -136,7 +132,6 @@ function hasValidStatus(req, res, next) {
 
 function statusIsBooked(req, res, next) {
   const { status } = res.locals.reservation;
-
   if (status === "booked") {
     return next();
   }
@@ -148,7 +143,6 @@ function statusIsBooked(req, res, next) {
 
 function statusIsBookedIfPresent(req, res, next) {
   const { status } = req.body.data;
-
   if (!status || status === "booked") {
     return next();
   }
@@ -172,7 +166,6 @@ function statusIsNotFinished(req, res, next) {
 function noReservationsOnTuesdays(req, res, next) {
   const reservation_date = req.body.data.reservation_date;
   const weekday = new Date(reservation_date).getUTCDay();
-  // Sunday - Saturday: 0-6
   if (weekday !== 2) {
     return next();
   }
@@ -185,10 +178,7 @@ function noReservationsOnTuesdays(req, res, next) {
 function noReservationsInPast(req, res, next) {
   const { reservation_date, reservation_time } = req.body.data;
   const presentDate = Date.now();
-  const newReservationDate = new Date(
-    `${reservation_date} ${reservation_time}`
-  ).valueOf();
-
+  const newReservationDate = new Date(`${reservation_date} ${reservation_time}`).valueOf();
   if (newReservationDate > presentDate) {
     return next();
   }
@@ -212,7 +202,7 @@ function reservationIsDuringBusinessHours(req, res, next) {
   next();
 }
 
-//! <<-------   CRUDL    ------->>
+// CRUD FUNCTIONS
 async function create(req, res) {
   const newReservation = { ...req.body.data, status: "booked" };
   const data = await service.create(newReservation);
@@ -239,10 +229,12 @@ async function updateStatus(req, res) {
 }
 
 async function list(req, res) {
-  const { date, mobile_number } = req.query;
-
+  const { date, viewDate, mobile_number } = req.query;
   if (date) {
     const data = await service.listByDate(date);
+    res.json({ data });
+  } else if (viewDate) {
+    const data = await service.listByDate(viewDate);
     res.json({ data });
   } else if (mobile_number) {
     const data = await service.listByPhone(mobile_number);

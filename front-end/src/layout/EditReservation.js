@@ -45,7 +45,6 @@ function EditReservation() {
         }
     }, [currentReservation])
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const updatedReservation = {
@@ -59,7 +58,7 @@ function EditReservation() {
         updateReservation(updatedReservation, currentReservation.reservation_id)
         .then((response) => {
             console.log(response);
-            history.goBack()
+            history.push(`/dashboard?date=${reservation_date}`)
         })
     }
 

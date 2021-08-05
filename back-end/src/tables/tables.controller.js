@@ -3,9 +3,9 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 const onlyValidProperties = require("../errors/onlyValidProperties");
 
+// SET UP FOR VALIDATION
 const REQUIRED_PROPERTIES = ["table_name", "capacity"];
 const VALID_PROPERTIES = ["table_name", "capacity", "reservation_id", "people"];
-
 
 const hasOnlyValidPropertiesForCreate = onlyValidProperties(VALID_PROPERTIES);
 const hasRequiredPropertiesForCreate = hasProperties(REQUIRED_PROPERTIES);
@@ -86,7 +86,6 @@ async function reservationAlreadySeated(req, res, next) {
 async function reservationExists(req, res, next) {
   const { reservation_id } = req.body.data;
   const reservation = await service.readReservation(reservation_id);
-
   if (reservation) {
     res.locals.reservation = reservation;
     return next();
@@ -99,7 +98,6 @@ async function reservationExists(req, res, next) {
 
 async function hasEnoughCapacity(req, res, next) {
   const { reservation, table } = res.locals;
-
   if (table.capacity >= reservation.people) {
     return next();
   }
