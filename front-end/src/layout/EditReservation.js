@@ -3,38 +3,30 @@ import { useHistory, useParams } from "react-router-dom";
 import { listReservations, updateReservation } from "../utils/api";
 
 function EditReservation() {
+    const history = useHistory();
+    const params = useParams();
+    const [reservations, setReservations] = useState([])
+    const [currentReservation, setCurrentReservation] = useState({})
     const [first_name, setFirst_name] = useState("");
     const [last_name, setLast_name] = useState("");
     const [mobile_number, setMobile_number] = useState("");
     const [reservation_date, setReservation_date] = useState("");
     const [reservation_time, setReservation_time] = useState("");
     const [people, setPeople] = useState(1);
-    //set default info as old info?
     
-    //make a useEffect calling the reservations list and 
-    //use params to get current res
-    //only can edit if res.status is booked, backend validate
-    const history = useHistory();
-    const params = useParams();
-    const [reservations, setReservations] = useState([])
-    const [currentReservation, setCurrentReservation] = useState({})
-
     useEffect(() => {
         listReservations({})
         .then((response) => {
-            console.log(response)
             setReservations(response)
         })
     }, [params])
     useEffect(() => {
         if (reservations.length !== 0) {
             const current = reservations.find((res) => res.reservation_id === Number(params.reservation_id))
-            console.log(current)
             setCurrentReservation(current)
         }
     }, [reservations, params])
     useEffect(() => {
-        console.log(currentReservation);
         if (Object.keys(currentReservation).length !== 0) {
             setFirst_name(currentReservation.first_name)
             setLast_name(currentReservation.last_name)
@@ -56,8 +48,7 @@ function EditReservation() {
             people,
         };
         updateReservation(updatedReservation, currentReservation.reservation_id)
-        .then((response) => {
-            console.log(response);
+        .then(() => {
             history.push(`/dashboard?date=${reservation_date}`)
         })
     }
@@ -131,7 +122,7 @@ function EditReservation() {
                         value={people}
                         />
                     <br />
-                    <button type="submit">SUBMIT</button>
+                    <button type="submit">submit</button>
                     <button onClick={handleCancel}>CANCEL</button>
                 </form>
         </div>

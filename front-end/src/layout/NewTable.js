@@ -30,8 +30,7 @@ function NewTable() {
                 capacity,
             }
             createTable(table)
-            .then((response) => {
-                console.log(response)
+            .then(() => {
                 history.push("/dashboard")
             })
         }

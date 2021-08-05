@@ -22,7 +22,6 @@ function ReservationDetail({reservation}) {
         };
         updateReservationStatus(updateToSeated, currentReservation.reservation_id)
         .then((response) => {
-            console.log(response)
             setCurrentReservation(response)
             history.push(`/reservations/${currentReservation.reservation_id}/seat`)
         })
@@ -39,7 +38,6 @@ function ReservationDetail({reservation}) {
             };
             updateReservationStatus(updatedToCancelled, currentReservation.reservation_id)
             .then((response) => {
-                console.log(response)
                 setCurrentReservation(response)
                 history.go(0)
             })

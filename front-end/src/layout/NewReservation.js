@@ -70,8 +70,7 @@ function NewReservation() {
                 status: "booked",
             }
             createReservation(reservation)
-            .then((response) => {
-                console.log(response)
+            .then(() => {
                 history.push(`/dashboard?date=${reservation_date}`)
             })
         }

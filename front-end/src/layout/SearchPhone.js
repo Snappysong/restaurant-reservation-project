@@ -14,7 +14,6 @@ function SearchPhone() {
         };
         listReservations(dataParams)
         .then((response) => {
-            console.log(response)
             setReservations(response);
         })
     }

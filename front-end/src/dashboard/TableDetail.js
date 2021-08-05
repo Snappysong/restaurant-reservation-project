@@ -28,12 +28,10 @@ function TableDetail( {table, reservations} ) {
             };
             updateReservationStatus(updateToFinished, currentReservation.reservation_id)
             .then((response) => {
-                console.log(response)
                 setCurrentReservation(response)
             })
             deleteReservationId(currentTable.table_id)
             .then((response) => {
-                console.log(response)
                 setCurrentTable(response)
                 history.go(0);
             })
