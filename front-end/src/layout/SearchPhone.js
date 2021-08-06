@@ -3,26 +3,23 @@ import { listReservations } from "../utils/api";
 import ReservationDetail from "../dashboard/ReservationDetail";
 
 function SearchPhone() {
-    const [mobile_number, setMobile_number] = useState("")
-    const [reservations, setReservations] = useState(null)
-    const [showError, setShowError] = useState(false)
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const dataParams = {
-            mobile_number,
-        };
-        listReservations(dataParams)
-        .then((response) => {
-            setReservations(response);
-        })
-    }
+    const [mobile_number, setMobile_number] = useState("");
+    const [reservations, setReservations] = useState(null);
+    const [showError, setShowError] = useState(false);
 
     useEffect(() => {
         if (reservations && reservations.length === 0) {
             setShowError(true);
         }
-    }, [reservations])
+    }, [reservations]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        listReservations({mobile_number})
+        .then((response) => {
+            setReservations(response);
+        });
+    }
 
     return (
         <div>
@@ -56,7 +53,7 @@ function SearchPhone() {
                 </ul>
             </div>
         </div>
-    )
+    );
 }
 
 export default SearchPhone;

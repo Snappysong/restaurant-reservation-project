@@ -12,19 +12,16 @@ function ReservationDetail({reservation}) {
         if (currentReservation.status === "booked" || currentReservation.status === null) {
             setShowSeat(true);
         }
-    }, [currentReservation])
+    }, [currentReservation]);
 
-    const handleClick = (e) => {
+    const handleSeat = (e) => {
         e.preventDefault();
         setShowSeat(false);
-        const updateToSeated = {
-            status: "seated",
-        };
-        updateReservationStatus(updateToSeated, currentReservation.reservation_id)
+        updateReservationStatus({ status: "seated" }, currentReservation.reservation_id)
         .then((response) => {
-            setCurrentReservation(response)
-            history.push(`/reservations/${currentReservation.reservation_id}/seat`)
-        })
+            setCurrentReservation(response);
+            history.push(`/reservations/${currentReservation.reservation_id}/seat`);
+        });
     }
 
     const handleCancelRes = (e) => {
@@ -33,14 +30,11 @@ function ReservationDetail({reservation}) {
             "Do you want to cancel this reservation? This cannot be undone."
         );
         if (confirmBox === true) {
-            const updatedToCancelled = {
-                status: "cancelled",
-            };
-            updateReservationStatus(updatedToCancelled, currentReservation.reservation_id)
+            updateReservationStatus({ status: "cancelled" }, currentReservation.reservation_id)
             .then((response) => {
-                setCurrentReservation(response)
-                history.go(0)
-            })
+                setCurrentReservation(response);
+                history.go(0);
+            });
         }
     }
 
@@ -67,7 +61,7 @@ function ReservationDetail({reservation}) {
             <div>
                 {showSeat ? <a 
                             href={`/reservations/${currentReservation.reservation_id}/seat`}
-                            onClick={handleClick}
+                            onClick={handleSeat}
                             >
                         "Seat"
                             </a> : <div></div>}

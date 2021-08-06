@@ -11,27 +11,17 @@ import useQuery from "../utils/useQuery";
 import SearchPhone from "./SearchPhone";
 import EditReservation from "./EditReservation";
 
-/**
- * Defines all the routes for the application.
- *
- * You will need to make changes to this file.
- *
- * @returns {JSX.Element}
- */
 function Routes() {
   const [date, setDate] = useState(today());
-
   const url = useRouteMatch();
   const query = useQuery();
 
-  function loadDate() {
+  useEffect(() => {
     const newDate = query.get("date");
     if (newDate) {
       setDate(newDate);
     }
-  }
-
-  useEffect(loadDate, [url, query]);
+  }, [url, query]);
 
   return (
     <Switch>

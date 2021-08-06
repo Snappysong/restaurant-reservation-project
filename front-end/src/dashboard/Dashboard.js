@@ -1,32 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import { listReservations, listTables } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
 import { previous, next } from "../utils/date-time";
+import ErrorAlert from "../layout/ErrorAlert";
 import ReservationDetail from "./ReservationDetail";
 import TableDetail from "./TableDetail";
-import { useLocation, useHistory, useRouteMatch } from "react-router-dom";
 
-/**
- * Defines the dashboard page.
- * @param date
- *  the date for which the user wants to view reservations.
- * @returns {JSX.Element}
- */
 function Dashboard({ date }) {
 
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-  const [viewDate, setViewDate] = useState(date);
-
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
+  const [viewDate, setViewDate] = useState(date);
   
-  const url = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
   const searchedDate = location.search.slice(-10);
 
-  function loadDashboard() {
+  useEffect(() => {
     const abortController = new AbortController();
     setReservationsError(null);
     if (viewDate === date) {
@@ -42,37 +34,27 @@ function Dashboard({ date }) {
       setViewDate(searchedDate);
     }
     return () => abortController.abort();
-  }
+  }, [date, viewDate, location.search, searchedDate]);
 
-  function loadTables() {
+  useEffect(() => {
     const abortController = new AbortController();
     setTablesError(null);
     listTables()
     .then(setTables)
     .catch(setTablesError);
     return () => abortController.abort();
-  }
+  }, [history]);
 
-  useEffect(loadDashboard, [date, viewDate, location.search, searchedDate, url]);
-  useEffect(loadTables, [history, url]) 
-
-
-//functions for buttons for changing days
   const handlePreviousDay = (e) => {
     e.preventDefault();
-    history.push(`/dashboard`)
-    const prevDay = previous(viewDate);
-    setViewDate(prevDay);
+    setViewDate(previous(viewDate));
   }
   const handleNextDay = (e) => {
     e.preventDefault();
-    history.push(`/dashboard`)
-    const nextDay = next(viewDate);
-    setViewDate(nextDay);
+    setViewDate(next(viewDate));
   }
   const handleTodayDay = (e) => {
     e.preventDefault();
-    history.push(`/dashboard`)
     setViewDate(date);
   }
 

@@ -35,16 +35,18 @@ function SeatReservation() {
     }
 
     function assignResToCurrent() {
-        const current = res.find((obj) => obj.reservation_id === Number(params.reservation_id))
-        setCurrentRes(current)
+        const current = res.find((obj) => obj.reservation_id === Number(params.reservation_id));
+        setCurrentRes(current);
     }
 
+    //Make all useEffects nameless functions
     useEffect(loadTables, []);
     useEffect(loadReservations, []);
     useEffect(assignResToCurrent, [res, params.reservation_id]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        //showAlert needs to go but somehow switch here when clicked
         setShowAlert("");
         let valid = true;
         const tableObj = JSON.parse(formValue);
@@ -59,7 +61,7 @@ function SeatReservation() {
                     return table.table_id === response.table_id ? response : table
                 })
                 setTables(newTables);
-                history.push(`/dashboard`)
+                history.push(`/dashboard`);
             })
         }
     }
@@ -72,6 +74,7 @@ function SeatReservation() {
     if (tables) {
         return (
             <div>
+                {/* Change some of this error formating. get rid of showAlert state. */}
                 <ErrorAlert error={tablesError} />
                 <ErrorAlert error={resError} />
                 {showAlert && (

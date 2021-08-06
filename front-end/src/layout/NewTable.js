@@ -13,26 +13,26 @@ function NewTable() {
         setShowAlert("");
         let valid = true;
         if (table_name.length < 2) {
-            setShowAlert("Table name needs to be longer!")
+            setShowAlert("Table name needs to be longer!");
             valid = false;
         }
         if (isNaN(capacity)) {
-            setShowAlert("Capacity needs to be a valid number!")
+            setShowAlert("Capacity needs to be a valid number!");
             valid = false;
         }        
         if (capacity < 1) {
-            setShowAlert("This table needs more seats/capacity!")
+            setShowAlert("This table needs more seats/capacity!");
             valid = false;
         }
         if (valid === true) {
             const table = {
                 table_name,
                 capacity,
-            }
+            };
             createTable(table)
             .then(() => {
-                history.push("/dashboard")
-            })
+                history.push("/dashboard");
+            });
         }
     }
 

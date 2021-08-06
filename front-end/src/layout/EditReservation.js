@@ -5,8 +5,8 @@ import { listReservations, updateReservation } from "../utils/api";
 function EditReservation() {
     const history = useHistory();
     const params = useParams();
-    const [reservations, setReservations] = useState([])
-    const [currentReservation, setCurrentReservation] = useState({})
+    const [reservations, setReservations] = useState([]);
+    const [currentReservation, setCurrentReservation] = useState({});
     const [first_name, setFirst_name] = useState("");
     const [last_name, setLast_name] = useState("");
     const [mobile_number, setMobile_number] = useState("");
@@ -17,25 +17,27 @@ function EditReservation() {
     useEffect(() => {
         listReservations({})
         .then((response) => {
-            setReservations(response)
-        })
-    }, [params])
+            setReservations(response);
+        });
+    }, [params]);
+
     useEffect(() => {
         if (reservations.length !== 0) {
-            const current = reservations.find((res) => res.reservation_id === Number(params.reservation_id))
-            setCurrentReservation(current)
+            const current = reservations.find((res) => res.reservation_id === Number(params.reservation_id));
+            setCurrentReservation(current);
         }
-    }, [reservations, params])
+    }, [reservations, params]);
+
     useEffect(() => {
         if (Object.keys(currentReservation).length !== 0) {
-            setFirst_name(currentReservation.first_name)
-            setLast_name(currentReservation.last_name)
-            setMobile_number(currentReservation.mobile_number)
-            setReservation_date(currentReservation.reservation_date)
-            setReservation_time(currentReservation.reservation_time)
-            setPeople(currentReservation.people)
-        }
-    }, [currentReservation])
+            setFirst_name(currentReservation.first_name);
+            setLast_name(currentReservation.last_name);
+            setMobile_number(currentReservation.mobile_number);
+            setReservation_date(currentReservation.reservation_date);
+            setReservation_time(currentReservation.reservation_time);
+            setPeople(currentReservation.people);
+        };
+    }, [currentReservation]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -49,8 +51,8 @@ function EditReservation() {
         };
         updateReservation(updatedReservation, currentReservation.reservation_id)
         .then(() => {
-            history.push(`/dashboard?date=${reservation_date}`)
-        })
+            history.push(`/dashboard?date=${reservation_date}`);
+        });
     }
 
     const handleCancel = (e) => {

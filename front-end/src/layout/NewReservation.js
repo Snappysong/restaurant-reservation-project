@@ -68,11 +68,11 @@ function NewReservation() {
                 reservation_time,
                 people,
                 status: "booked",
-            }
+            };
             createReservation(reservation)
             .then(() => {
-                history.push(`/dashboard?date=${reservation_date}`)
-            })
+                history.push(`/dashboard?date=${reservation_date}`);
+            });
         }
     }
 

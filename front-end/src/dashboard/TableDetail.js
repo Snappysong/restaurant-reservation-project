@@ -10,23 +10,20 @@ function TableDetail( {table, reservations} ) {
 
     useEffect(() => {
         if (currentTable.reservation_id) {
-            setTableStatus(`Occupied by reservation ID: ${currentTable.reservation_id}`)
-            setCurrentReservation(reservations.find((res) => res.reservation_id === currentTable.reservation_id))
+            setTableStatus(`Occupied by reservation ID: ${currentTable.reservation_id}`);
+            setCurrentReservation(reservations.find((res) => res.reservation_id === currentTable.reservation_id));
         } else {
             setTableStatus("Free");
         }
-    }, [currentTable, reservations])
+    }, [currentTable, reservations]);
 
     const handleFinish = (e) => {
         e.preventDefault();
         const confirmBox = window.confirm(
             "Is this table ready to seat new guests? This cannot be undone."
-        )
+        );
         if (confirmBox === true) {
-            const updateToFinished = {
-                status: "finished",
-            };
-            updateReservationStatus(updateToFinished, currentReservation.reservation_id)
+            updateReservationStatus({ status: "finished" }, currentReservation.reservation_id)
             .then((response) => {
                 setCurrentReservation(response)
             })
