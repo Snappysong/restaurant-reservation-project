@@ -62,9 +62,10 @@ function EditReservation() {
 
     return (
         <div>
-            EDIT FORM
-            <form onSubmit={handleSubmit} >
-                <label>First Name:</label>
+            <h1>EDIT FORM</h1>       
+            <div>
+                <form onSubmit={handleSubmit} >
+                    <label>First Name:</label>
                     <br />
                         <input
                         name="first_name"
@@ -127,6 +128,7 @@ function EditReservation() {
                     <button type="submit">submit</button>
                     <button onClick={handleCancel}>CANCEL</button>
                 </form>
+            </div>
         </div>
     )
 };

@@ -41,12 +41,9 @@ function TableDetail( {table, reservations} ) {
 
     return (
         <div>
-            ID: {currentTable.table_id}
-            <br />
-            Name: {currentTable.table_name}
-            <br />
-            Capacity: {currentTable.capacity}
-            <br />
+            <p>ID: {currentTable.table_id}</p>
+            <p>Name: {currentTable.table_name}</p>
+            <p>Capacity: {currentTable.capacity}</p>
             <p data-table-id-status={`${currentTable.table_id}`}>
             {tableStatus}
             </p>   

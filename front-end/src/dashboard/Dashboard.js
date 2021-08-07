@@ -61,36 +61,39 @@ function Dashboard({ date }) {
   if (reservations) {
     return (
       <main>
-        <h1>Dashboard</h1>
+
         <div className="d-md-flex mb-3">
+          <h1>Dashboard</h1>
           <h4 className="mb-0">Reservations for date</h4>
-          <h3>{viewDate}</h3>
-          <button onClick={handleTodayDay}>Today</button>
-          <br />
-          <button onClick={handlePreviousDay}>Previous Day</button>
-          <button onClick={handleNextDay}>Next Day</button>
+          <h4>{viewDate}</h4>
+            <button className="daybutton" onClick={handleTodayDay}>Today</button>
+            <br />
+            <button onClick={handlePreviousDay}>Previous Day</button>
+            <button onClick={handleNextDay}>Next Day</button>
         </div>
-        <ErrorAlert error={reservationsError} />
+
         <div>
-          <h4>Reservations!</h4>
-          <ul>
-            {reservations && reservations.map((res) => (
-              <li key={res.reservation_id}>
-                <ReservationDetail reservation={res} />
-              </li>
-            ))}
-          </ul>
+          <ErrorAlert error={reservationsError} />
+          <h3>Reservations!</h3>
+            <ul>
+              {reservations && reservations.map((res) => (
+                <li key={res.reservation_id}>
+                  <ReservationDetail reservation={res} />
+                </li>
+              ))}
+            </ul>
         </div>
-        <ErrorAlert error={tablesError} />
+
         <div>
-          <h4>Tables??</h4>
-          <ul>
-            {tables && tables.map((table) => (
-              <li key={table.table_id}>
-                <TableDetail table={table} reservations={reservations}/>
-              </li>
-            ))}
-          </ul>
+          <ErrorAlert error={tablesError} />
+          <h3>Tables??</h3>
+            <ul>
+              {tables && tables.map((table) => (
+                <li key={table.table_id}>
+                  <TableDetail table={table} reservations={reservations}/>
+                </li>
+              ))}
+            </ul>
         </div>
       </main>
     ); 

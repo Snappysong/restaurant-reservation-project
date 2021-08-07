@@ -41,29 +41,21 @@ function ReservationDetail({reservation}) {
     return (
         <div>
             <div>
-                ID: {currentReservation.reservation_id}
-                <br />
-                FIRST NAME: {currentReservation.first_name}
-                <br />
-                LAST NAME: {currentReservation.last_name}
-                <br />
-                PHONE NUMBER: {currentReservation.mobile_number}
-                <br />
-                DATE: {currentReservation.reservation_date}
-                <br />
-                TIME: {currentReservation.reservation_time}
-                <br />
-                #PEOPLE: {currentReservation.people}
-                <br />
-                This Table is...
-                <p data-reservation-id-status={currentReservation.reservation_id}>{currentReservation.status ? currentReservation.status : "booked"}</p>
+                <p>ID: {currentReservation.reservation_id}</p>
+                <p>FIRST NAME: {currentReservation.first_name}</p>
+                <p>LAST NAME: {currentReservation.last_name}</p>
+                <p>PHONE NUMBER: {currentReservation.mobile_number}</p>
+                <p>DATE: {currentReservation.reservation_date}</p>
+                <p>TIME: {currentReservation.reservation_time}</p>
+                <p>#PEOPLE: {currentReservation.people}</p>
+                <p data-reservation-id-status={currentReservation.reservation_id}>This Table is... {currentReservation.status ? currentReservation.status : "booked"}</p>
             </div>
             <div>
                 {showSeat ? <a 
                             href={`/reservations/${currentReservation.reservation_id}/seat`}
                             onClick={handleSeat}
                             >
-                        "Seat"
+                        Seat
                             </a> : <div></div>}
                 
             </div>

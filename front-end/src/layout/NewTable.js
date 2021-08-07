@@ -50,6 +50,7 @@ function NewTable() {
                     </p>
                 )}
             </div>
+            
             <div>
                 <form onSubmit={handleSubmit}>
                     <label>Table Name:</label>

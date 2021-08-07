@@ -16,33 +16,28 @@ function SeatReservation() {
     const [formValue, setFormValue] = useState({});
     const [showAlert, setShowAlert] = useState("");
 
-    function loadTables() {
+    useEffect(() => {
         const abortController = new AbortController();
         setTablesError(null);
         listTables()
         .then(setTables)
         .catch(setTablesError);
         return () => abortController.abort();
-    }
+    }, []);
 
-    function loadReservations() {
+    useEffect(() => {
         const abortController = new AbortController();
         setResError(null);
         listReservations({ }, abortController.signal)
         .then(setRes)
         .catch(setResError);
         return () => abortController.abort();
-    }
+    }, []);
 
-    function assignResToCurrent() {
+    useEffect(() => {
         const current = res.find((obj) => obj.reservation_id === Number(params.reservation_id));
         setCurrentRes(current);
-    }
-
-    //Make all useEffects nameless functions
-    useEffect(loadTables, []);
-    useEffect(loadReservations, []);
-    useEffect(assignResToCurrent, [res, params.reservation_id]);
+    }, [res, params.reservation_id]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -74,33 +69,38 @@ function SeatReservation() {
     if (tables) {
         return (
             <div>
-                {/* Change some of this error formating. get rid of showAlert state. */}
-                <ErrorAlert error={tablesError} />
-                <ErrorAlert error={resError} />
-                {showAlert && (
-                        <p className="alert alert-danger">
-                            {showAlert}
-                        </p>
-                    )}
-                <h3>Reservation Seating for reservation ID: {params.reservation_id}</h3>
-                <form onSubmit={handleSubmit} >
-                    <label>Table Number:</label>
-                    <br />
-                    <select name="table_id" onChange={(e) => setFormValue(e.target.value)}>
-                        <option value="">--Please Choose a Table--</option>
-                        {tables && tables.map((table) => (
-                            <option key={table.table_id}
-                                    value={JSON.stringify(table)}
-                                    required
-                                    >
-                                {table.table_name} - {table.capacity}
-                            </option>
-                        ))}
-                    </select>
-                    <br />
-                    <button type="submit">SUBMIT</button>
-                    <button onClick={handleCancel}>Cancel</button>
-                </form>
+                <div>
+                    {/* Change some of this error formating. get rid of showAlert state. */}
+                    <ErrorAlert error={tablesError} />
+                    <ErrorAlert error={resError} />
+                    {showAlert && (
+                            <p className="alert alert-danger">
+                                {showAlert}
+                            </p>
+                        )}
+                </div>
+
+                <div>
+                    <h4>Reservation Seating for reservation ID: {params.reservation_id}</h4>
+                    <form onSubmit={handleSubmit} >
+                        <label>Table Number:</label>
+                        <br />
+                        <select name="table_id" onChange={(e) => setFormValue(e.target.value)}>
+                            <option value="">--Please Choose a Table--</option>
+                                {tables && tables.map((table) => (
+                                    <option key={table.table_id}
+                                        value={JSON.stringify(table)}
+                                        required
+                                        >
+                                    {table.table_name} - {table.capacity}
+                                </option>
+                            ))}
+                        </select>
+                        <br />
+                        <button type="submit">SUBMIT</button>
+                        <button onClick={handleCancel}>Cancel</button>
+                    </form>
+                </div>
             </div>
         )
     } else {

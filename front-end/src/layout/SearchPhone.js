@@ -23,34 +23,39 @@ function SearchPhone() {
 
     return (
         <div>
-            {showError && (
-                <p className="alert alert-danger">
-                    No reservations found.
-                </p>
-            )}
-            <form onSubmit={handleSubmit}>
-                <label>Search By Phone Number!</label>
-                <br />
-                    <input
-                    name="mobile_number"
-                    type="text"
-                    placeholder="Enter a customer's phone number"
-                    required
-                    onChange={(e) => setMobile_number(e.target.value)}
-                    value={mobile_number}
-                    />
-                <br />
-                <button type="submit">FIND</button>
-            </form>
             <div>
-                <h4>Reservations!</h4>
-                <ul>
-                    {reservations && reservations.map((res) => (
-                        <li key={res.reservation_id}>
-                            <ReservationDetail reservation={res} />
-                        </li>
-                    ))}
-                </ul>
+                {showError && (
+                    <p className="alert alert-danger">
+                        No reservations found.
+                    </p>
+                )}
+            </div>
+
+            <div>
+                <form onSubmit={handleSubmit}>
+                    <label>Search By Phone Number!</label>
+                    <br />
+                        <input
+                        name="mobile_number"
+                        type="text"
+                        placeholder="Enter a customer's phone number"
+                        required
+                        onChange={(e) => setMobile_number(e.target.value)}
+                        value={mobile_number}
+                        />
+                    <br />
+                    <button type="submit">FIND</button>
+                </form>
+                <div>
+                    <h3>Reservations!</h3>
+                    <ul>
+                        {reservations && reservations.map((res) => (
+                            <li key={res.reservation_id}>
+                                <ReservationDetail reservation={res} />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     );
