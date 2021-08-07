@@ -14,7 +14,7 @@ This project is something I build from the ground up. Full stack! I think I enjo
 - You may use vanilla CSS or Bootstrap for styling the frontend.
 - The styling on your client must be polished. In other words, you need to choose fonts and colors that make sense, correctly size the various components, and make sure that it looks great on both mobile and desktop devices.
 - You must deploy a live, publicly accessible version of your application.
-- 
+
 ## Tech Stack
 
 **Tools:** Javascript, React, HTML, CSS, SQL, Knex, Node, Bootstrap, Heroku, ElephantSQL
