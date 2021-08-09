@@ -66,21 +66,20 @@ function Dashboard({ date }) {
           <h1>Dashboard</h1>
         </div>  
 
-        <div className="d-flex mb-3 justify-content-center">
-          <h4>Reservations for date: {viewDate}</h4>
-        </div>
-
         <div className="d-flex mb-3 justify-content-around">
           <button className="btn btn-info" onClick={handlePreviousDay}>Previous Day</button>
           <button className="btn btn-dark" onClick={handleTodayDay}>Today</button>
           <button className="btn btn-info" onClick={handleNextDay}>Next Day</button>
         </div>
 
+        <div className="d-flex mb-3 justify-content-center">
+          <h4>Date: {viewDate}</h4>
+        </div>
+
         <ErrorAlert error={tablesError} />
         <ErrorAlert error={reservationsError} />
 
         <div>
-          <h3 className="d-flex m-3 justify-content-center">Reservations</h3>
             <ul className="list-group list-group-flush">
               {reservations && reservations.map((res) => (
                 <li className="list-group-item list-background" key={res.reservation_id}>
