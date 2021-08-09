@@ -40,15 +40,17 @@ function TableDetail( {table, reservations} ) {
     }
 
     return (
-        <div>
-            <p>ID: {currentTable.table_id}</p>
-            <p>Name: {currentTable.table_name}</p>
-            <p>Capacity: {currentTable.capacity}</p>
-            <p data-table-id-status={`${currentTable.table_id}`}>
-            {tableStatus}
-            </p>   
-            <div>
-                {tableStatus === "Free" ? (<div></div>) : (<div><button data-table-id-finish={table.table_id} onClick={handleFinish}>FINISH</button> <br /> <button onClick={handleCancel}>CANCEL</button></div>)} 
+        <div className="card">
+            <div className="card-body">
+                <p>ID: {currentTable.table_id}</p>
+                <p>Name: {currentTable.table_name}</p>
+                <p>Capacity: {currentTable.capacity}</p>
+                <p data-table-id-status={`${currentTable.table_id}`}>
+                {tableStatus}
+                </p>   
+                <div>
+                    {tableStatus === "Free" ? (<div></div>) : (<div><button data-table-id-finish={table.table_id} onClick={handleFinish}>FINISH</button> <br /> <button onClick={handleCancel}>CANCEL</button></div>)} 
+                </div>
             </div>
         </div>
     )

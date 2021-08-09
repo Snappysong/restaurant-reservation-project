@@ -39,36 +39,38 @@ function ReservationDetail({reservation}) {
     }
 
     return (
-        <div>
-            <div>
-                <p>ID: {currentReservation.reservation_id}</p>
-                <p>FIRST NAME: {currentReservation.first_name}</p>
-                <p>LAST NAME: {currentReservation.last_name}</p>
-                <p>PHONE NUMBER: {currentReservation.mobile_number}</p>
-                <p>DATE: {currentReservation.reservation_date}</p>
-                <p>TIME: {currentReservation.reservation_time}</p>
-                <p>#PEOPLE: {currentReservation.people}</p>
-                <p data-reservation-id-status={currentReservation.reservation_id}>This Table is... {currentReservation.status ? currentReservation.status : "booked"}</p>
-            </div>
-            <div>
-                {showSeat ? <a 
-                            href={`/reservations/${currentReservation.reservation_id}/seat`}
-                            onClick={handleSeat}
-                            >
-                        Seat
-                            </a> : <div></div>}
-                
-            </div>
-            <div>
-                <a href={`/reservations/${currentReservation.reservation_id}/edit`}>
-                    EDIT
-                </a>
-            </div>
-            <div>
-                <button data-reservation-id-cancel={currentReservation.reservation_id}
-                        onClick={handleCancelRes}>
-                    Cancel Reservation
-                </button>
+        <div className="card">
+            <div className="card-body ">
+                <h6 className="card-title text-center">ID: {currentReservation.reservation_id}</h6>
+                <p className="card-text text-right">FIRST NAME: {currentReservation.first_name}</p>
+                <p className="card-text text-right">LAST NAME: {currentReservation.last_name}</p>
+                <p className="card-text text-right">PHONE NUMBER: {currentReservation.mobile_number}</p>
+                <p className="card-text text-right">DATE: {currentReservation.reservation_date}</p>
+                <p className="card-text text-right">TIME: {currentReservation.reservation_time}</p>
+                <p className="card-text text-right">#PEOPLE: {currentReservation.people}</p>
+                <p className="card-text text-right" data-reservation-id-status={currentReservation.reservation_id}>This Table is... {currentReservation.status ? currentReservation.status : "booked"}</p>
+
+                <div className="d-flex justify-content-around">
+                    {showSeat ? <a 
+                                href={`/reservations/${currentReservation.reservation_id}/seat`}
+                                onClick={handleSeat}
+                                className="card-link"
+                                >
+                            Seat
+                                </a> : <div></div>}
+                    
+                    <a 
+                        href={`/reservations/${currentReservation.reservation_id}/edit`}
+                        className="card-link"
+                    >
+                        EDIT
+                    </a>
+                    <button data-reservation-id-cancel={currentReservation.reservation_id}
+                            onClick={handleCancelRes}
+                            className="btn btn-danger">
+                        Cancel Reservation
+                    </button>
+                </div>
             </div>
         </div>
     )

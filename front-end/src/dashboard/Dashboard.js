@@ -64,20 +64,22 @@ function Dashboard({ date }) {
 
         <div className="d-md-flex mb-3">
           <h1>Dashboard</h1>
-          <h4 className="mb-0">Reservations for date</h4>
-          <h4>{viewDate}</h4>
-            <button className="daybutton" onClick={handleTodayDay}>Today</button>
-            <br />
-            <button onClick={handlePreviousDay}>Previous Day</button>
-            <button onClick={handleNextDay}>Next Day</button>
-        </div>
+        </div>  
+        <h4>Reservations for date:</h4>
+        <h4>{viewDate}</h4>
+
+          <button className="btn btn-secondary" onClick={handleTodayDay}>Today</button>
+          <br />
+          <button className="btn btn-info" onClick={handlePreviousDay}>Previous Day</button>
+          <button className="btn btn-dark" onClick={handleNextDay}>Next Day</button>
+        
 
         <div>
           <ErrorAlert error={reservationsError} />
           <h3>Reservations!</h3>
-            <ul>
+            <ul className="list-group list-group-flush">
               {reservations && reservations.map((res) => (
-                <li key={res.reservation_id}>
+                <li className="list-group-item" key={res.reservation_id}>
                   <ReservationDetail reservation={res} />
                 </li>
               ))}
@@ -87,9 +89,9 @@ function Dashboard({ date }) {
         <div>
           <ErrorAlert error={tablesError} />
           <h3>Tables??</h3>
-            <ul>
+            <ul className="list-group list-group-flush">
               {tables && tables.map((table) => (
-                <li key={table.table_id}>
+                <li className="list-group-item" key={table.table_id}>
                   <TableDetail table={table} reservations={reservations}/>
                 </li>
               ))}
