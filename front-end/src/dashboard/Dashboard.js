@@ -62,24 +62,28 @@ function Dashboard({ date }) {
     return (
       <main>
 
-        <div className="d-md-flex mb-3">
+        <div className="d-flex mb-3 justify-content-center">
           <h1>Dashboard</h1>
         </div>  
-        <h4>Reservations for date:</h4>
-        <h4>{viewDate}</h4>
 
-          <button className="btn btn-secondary" onClick={handleTodayDay}>Today</button>
-          <br />
+        <div className="d-flex mb-3 justify-content-center">
+          <h4>Reservations for date: {viewDate}</h4>
+        </div>
+
+        <div className="d-flex mb-3 justify-content-around">
           <button className="btn btn-info" onClick={handlePreviousDay}>Previous Day</button>
-          <button className="btn btn-dark" onClick={handleNextDay}>Next Day</button>
-        
+          <button className="btn btn-dark" onClick={handleTodayDay}>Today</button>
+          <button className="btn btn-info" onClick={handleNextDay}>Next Day</button>
+        </div>
+
+        <ErrorAlert error={tablesError} />
+        <ErrorAlert error={reservationsError} />
 
         <div>
-          <ErrorAlert error={reservationsError} />
-          <h3>Reservations!</h3>
+          <h3 className="d-flex m-3 justify-content-center">Reservations</h3>
             <ul className="list-group list-group-flush">
               {reservations && reservations.map((res) => (
-                <li className="list-group-item" key={res.reservation_id}>
+                <li className="list-group-item list-background" key={res.reservation_id}>
                   <ReservationDetail reservation={res} />
                 </li>
               ))}
@@ -87,11 +91,10 @@ function Dashboard({ date }) {
         </div>
 
         <div>
-          <ErrorAlert error={tablesError} />
-          <h3>Tables??</h3>
+          <h3 className="d-flex m-3 justify-content-center">Tables</h3>
             <ul className="list-group list-group-flush">
               {tables && tables.map((table) => (
-                <li className="list-group-item" key={table.table_id}>
+                <li className="list-group-item list-background" key={table.table_id}>
                   <TableDetail table={table} reservations={reservations}/>
                 </li>
               ))}

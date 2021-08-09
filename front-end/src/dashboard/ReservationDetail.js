@@ -39,29 +39,30 @@ function ReservationDetail({reservation}) {
     }
 
     return (
-        <div className="card">
-            <div className="card-body ">
-                <h6 className="card-title text-center">ID: {currentReservation.reservation_id}</h6>
-                <p className="card-text text-right">FIRST NAME: {currentReservation.first_name}</p>
-                <p className="card-text text-right">LAST NAME: {currentReservation.last_name}</p>
-                <p className="card-text text-right">PHONE NUMBER: {currentReservation.mobile_number}</p>
-                <p className="card-text text-right">DATE: {currentReservation.reservation_date}</p>
-                <p className="card-text text-right">TIME: {currentReservation.reservation_time}</p>
-                <p className="card-text text-right">#PEOPLE: {currentReservation.people}</p>
-                <p className="card-text text-right" data-reservation-id-status={currentReservation.reservation_id}>This Table is... {currentReservation.status ? currentReservation.status : "booked"}</p>
+        <div className="card text-left card-background">
+            <div className="card-body">
+                <h6 className="card-title text-center">Time of Reservation: {currentReservation.reservation_time}</h6>
+
+                <p className="card-text">First Name: {currentReservation.first_name}</p>
+                <p className="card-text">Last Name: {currentReservation.last_name}</p>
+                <p className="card-text">Phone Number: {currentReservation.mobile_number}</p>
+                <p className="card-text">Date of Reservation: {currentReservation.reservation_date}</p>
+                <p className="card-text">Party Size: {currentReservation.people}</p>
+                <p className="card-text" data-reservation-id-status={currentReservation.reservation_id}>This reservation is {currentReservation.status ? currentReservation.status : "booked"}.</p>
+                <p className="card-text">ID: {currentReservation.reservation_id}</p>
 
                 <div className="d-flex justify-content-around">
                     {showSeat ? <a 
                                 href={`/reservations/${currentReservation.reservation_id}/seat`}
                                 onClick={handleSeat}
-                                className="card-link"
+                                className="card-link btn btn-primary"
                                 >
                             Seat
                                 </a> : <div></div>}
                     
                     <a 
                         href={`/reservations/${currentReservation.reservation_id}/edit`}
-                        className="card-link"
+                        className="card-link btn btn-primary"
                     >
                         EDIT
                     </a>

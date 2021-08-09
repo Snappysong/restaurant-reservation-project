@@ -100,9 +100,11 @@ function NewReservation() {
                     </p>
                 )}
             </div>
-            
+
+            <h3 className="d-flex m-3 justify-content-center">New Reservation Form</h3>
+
             <div>
-                <form onSubmit={handleSubmit} >
+                <form className="form-group" onSubmit={handleSubmit} >
                     <label>First Name:</label>
                     <br />
                         <input
@@ -111,6 +113,7 @@ function NewReservation() {
                         required
                         onChange={(e) => setFirst_name(e.target.value)}
                         value={first_name}
+                        className="form-control"
                         />
                     <br />
                     <label>Last Name:</label>
@@ -121,6 +124,7 @@ function NewReservation() {
                         required
                         onChange={(e) => setLast_name(e.target.value)}
                         value={last_name}
+                        className="form-control"
                         />
                     <br />
                     <label>Mobile Number:</label>
@@ -131,6 +135,7 @@ function NewReservation() {
                         required
                         onChange={(e) => setMobile_number(e.target.value)}
                         value={mobile_number}
+                        className="form-control"
                         />
                     <br />
                     <label>Reservation Date:</label>
@@ -141,6 +146,7 @@ function NewReservation() {
                         required
                         onChange={(e) => setReservation_date(e.target.value)}
                         value={reservation_date}
+                        className="form-control"
                         />
                     <br />
                     <label>Reservation Time:</label>
@@ -151,6 +157,7 @@ function NewReservation() {
                         required
                         onChange={(e) => setReservation_time(e.target.value)}
                         value={reservation_time}
+                        className="form-control"
                         />
                     <br />
                     <label>Amount of People:</label>
@@ -161,10 +168,14 @@ function NewReservation() {
                         required
                         onChange={(e) => setPeople(e.target.valueAsNumber)}
                         value={people}
+                        className="form-control"
                         />
                     <br />
-                    <button type="submit">SUBMIT</button>
-                    <button onClick={handleCancel}>CANCEL</button>
+
+                    <div className="d-flex justify-content-around">
+                        <button className="btn btn-primary" type="submit">SUBMIT</button>
+                        <button className="btn btn-danger" onClick={handleCancel}>CANCEL</button>
+                    </div> 
                 </form>
             </div>
         </div>

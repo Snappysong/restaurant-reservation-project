@@ -50,9 +50,11 @@ function NewTable() {
                     </p>
                 )}
             </div>
-            
+
+            <h3 className="d-flex m-3 justify-content-center">New Table Form</h3>
+
             <div>
-                <form onSubmit={handleSubmit}>
+                <form className="form-group" onSubmit={handleSubmit}>
                     <label>Table Name:</label>
                     <br />
                         <input 
@@ -61,9 +63,10 @@ function NewTable() {
                         required
                         onChange={(e) => setTable_name(e.target.value)}
                         value={table_name}
+                        className="form-control"
                         />
                     <br />
-                    <label>Capacity:</label>
+                    <label>Table Capacity:</label>
                     <br />
                         <input 
                         name="capacity"
@@ -71,10 +74,14 @@ function NewTable() {
                         required
                         onChange={(e) => setCapacity(e.target.valueAsNumber)}
                         value={capacity}
+                        className="form-control"
                         />
                     <br />
-                    <button type="submit">SUBMIT</button>
-                    <button onClick={handleCancel}>CANCEL</button>
+
+                    <div className="d-flex justify-content-around">
+                        <button className="btn btn-primary" type="submit">SUBMIT</button>
+                        <button className="btn btn-danger" onClick={handleCancel}>CANCEL</button>
+                    </div>
                 </form>
             </div>
         </div>

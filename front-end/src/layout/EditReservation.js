@@ -62,9 +62,11 @@ function EditReservation() {
 
     return (
         <div>
-            <h1>EDIT FORM</h1>       
+
+            <h3 className="d-flex m-3 justify-content-center">Edit Reservation Form</h3>
+      
             <div>
-                <form onSubmit={handleSubmit} >
+                <form className="form-group" onSubmit={handleSubmit} >
                     <label>First Name:</label>
                     <br />
                         <input
@@ -73,6 +75,7 @@ function EditReservation() {
                         required
                         onChange={(e) => setFirst_name(e.target.value)}
                         value={first_name}
+                        className="form-control"
                         />
                     <br />
                     <label>Last Name:</label>
@@ -83,6 +86,7 @@ function EditReservation() {
                         required
                         onChange={(e) => setLast_name(e.target.value)}
                         value={last_name}
+                        className="form-control"
                         />
                     <br />
                     <label>Mobile Number:</label>
@@ -93,6 +97,7 @@ function EditReservation() {
                         required
                         onChange={(e) => setMobile_number(e.target.value)}
                         value={mobile_number}
+                        className="form-control"
                         />
                     <br />
                     <label>Reservation Date:</label>
@@ -103,6 +108,7 @@ function EditReservation() {
                         required
                         onChange={(e) => setReservation_date(e.target.value)}
                         value={reservation_date}
+                        className="form-control"
                         />
                     <br />
                     <label>Reservation Time:</label>
@@ -113,6 +119,7 @@ function EditReservation() {
                         required
                         onChange={(e) => setReservation_time(e.target.value)}
                         value={reservation_time}
+                        className="form-control"
                         />
                     <br />
                     <label>Amount of People:</label>
@@ -123,10 +130,14 @@ function EditReservation() {
                         required
                         onChange={(e) => setPeople(e.target.valueAsNumber)}
                         value={people}
+                        className="form-control"
                         />
                     <br />
-                    <button type="submit">submit</button>
-                    <button onClick={handleCancel}>CANCEL</button>
+
+                    <div className="d-flex justify-content-around">
+                        <button className="btn btn-primary" type="submit">submit</button>
+                        <button className="btn btn-danger" onClick={handleCancel}>CANCEL</button>
+                    </div>
                 </form>
             </div>
         </div>

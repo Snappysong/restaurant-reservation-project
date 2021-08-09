@@ -80,12 +80,13 @@ function SeatReservation() {
                         )}
                 </div>
 
+                <h3 className="d-flex m-3 justify-content-center">Seating for reservation ID: {params.reservation_id}</h3>
+
                 <div>
-                    <h4>Reservation Seating for reservation ID: {params.reservation_id}</h4>
-                    <form onSubmit={handleSubmit} >
+                    <form className="form-group" onSubmit={handleSubmit} >
                         <label>Table Number:</label>
                         <br />
-                        <select name="table_id" onChange={(e) => setFormValue(e.target.value)}>
+                        <select className="form-control" name="table_id" onChange={(e) => setFormValue(e.target.value)}>
                             <option value="">--Please Choose a Table--</option>
                                 {tables && tables.map((table) => (
                                     <option key={table.table_id}
@@ -97,8 +98,10 @@ function SeatReservation() {
                             ))}
                         </select>
                         <br />
-                        <button type="submit">SUBMIT</button>
-                        <button onClick={handleCancel}>Cancel</button>
+                        <div className="d-flex justify-content-around">
+                            <button className="btn btn-primary" type="submit">SUBMIT</button>
+                            <button className="btn btn-danger" onClick={handleCancel}>Cancel</button>
+                        </div>
                     </form>
                 </div>
             </div>

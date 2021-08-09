@@ -31,10 +31,10 @@ function SearchPhone() {
                 )}
             </div>
 
+            <h3 className="d-flex m-3 justify-content-center">Search Form</h3>
+
             <div>
-                <form onSubmit={handleSubmit}>
-                    <label>Search By Phone Number!</label>
-                    <br />
+                <form className="form-group" onSubmit={handleSubmit}>
                         <input
                         name="mobile_number"
                         type="text"
@@ -42,15 +42,17 @@ function SearchPhone() {
                         required
                         onChange={(e) => setMobile_number(e.target.value)}
                         value={mobile_number}
+                        className="form-control"
                         />
                     <br />
-                    <button type="submit">FIND</button>
+                    <div className="d-flex justify-content-center">
+                        <button className="btn btn-primary" type="submit">FIND</button>
+                    </div>
                 </form>
                 <div>
-                    <h3>Reservations!</h3>
-                    <ul>
+                    <ul className="list-group list-group-flush">
                         {reservations && reservations.map((res) => (
-                            <li key={res.reservation_id}>
+                            <li className="list-group-item" key={res.reservation_id}>
                                 <ReservationDetail reservation={res} />
                             </li>
                         ))}

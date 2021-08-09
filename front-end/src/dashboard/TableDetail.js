@@ -40,16 +40,16 @@ function TableDetail( {table, reservations} ) {
     }
 
     return (
-        <div className="card">
+        <div className="card text-center card-background">
             <div className="card-body">
-                <p>ID: {currentTable.table_id}</p>
-                <p>Name: {currentTable.table_name}</p>
-                <p>Capacity: {currentTable.capacity}</p>
-                <p data-table-id-status={`${currentTable.table_id}`}>
+                <p className="card-text">Table ID: {currentTable.table_id}</p>
+                <p className="card-text">Table Name: {currentTable.table_name}</p>
+                <p className="card-text">Table Capacity: {currentTable.capacity}</p>
+                <p className="card-text" data-table-id-status={`${currentTable.table_id}`}>
                 {tableStatus}
                 </p>   
-                <div>
-                    {tableStatus === "Free" ? (<div></div>) : (<div><button data-table-id-finish={table.table_id} onClick={handleFinish}>FINISH</button> <br /> <button onClick={handleCancel}>CANCEL</button></div>)} 
+                <div className="d-flex justify-content-center">
+                    {tableStatus === "Free" ? (<div></div>) : (<div><button className="btn btn-primary" data-table-id-finish={table.table_id} onClick={handleFinish}>FINISH</button> <button className="btn btn-danger" onClick={handleCancel}>CANCEL</button></div>)} 
                 </div>
             </div>
         </div>
