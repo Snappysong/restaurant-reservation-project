@@ -46,8 +46,8 @@ function ReservationDetail({reservation}) {
 
                 <p className="card-text">{currentReservation.first_name} {currentReservation.last_name}</p>
                 <p className="card-text">{currentReservation.mobile_number}</p>
-                <p className="card-text">Party Size: {currentReservation.people} ; ID: {currentReservation.reservation_id}</p>
-                <p className="card-text" data-reservation-id-status={currentReservation.reservation_id}>This reservation is {currentReservation.status ? currentReservation.status : "booked"}.</p>
+                <p className="card-text">Party Size: {currentReservation.people}</p>
+                <p className="card-text text-center" data-reservation-id-status={currentReservation.reservation_id}>{currentReservation.status ? currentReservation.status : "booked"}</p>
 
                 <div className="d-flex justify-content-center mb-1">
                     {showSeat ? <a 

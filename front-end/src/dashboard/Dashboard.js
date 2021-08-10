@@ -63,7 +63,7 @@ function Dashboard({ date }) {
       <main>
 
         <div className="d-flex mb-3 justify-content-center">
-          <h1>Dashboard</h1>
+          <h1>Your Dashboard</h1>
         </div>  
 
         <div className="d-flex mb-3 justify-content-around">
