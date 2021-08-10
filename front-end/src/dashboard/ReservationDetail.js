@@ -47,23 +47,20 @@ function ReservationDetail({reservation}) {
                 <p className="card-text">{currentReservation.first_name} {currentReservation.last_name}</p>
                 <p className="card-text">{currentReservation.mobile_number}</p>
                 <p className="card-text">Party Size: {currentReservation.people}</p>
-                <p className="card-text text-center" data-reservation-id-status={currentReservation.reservation_id}>{currentReservation.status ? currentReservation.status : "booked"}</p>
+                <p className="text-center boldtext" data-reservation-id-status={currentReservation.reservation_id}>{currentReservation.status ? currentReservation.status : "booked"}</p>
 
                 <div className="d-flex justify-content-center mb-1">
                     {showSeat ? <a 
                                 href={`/reservations/${currentReservation.reservation_id}/seat`}
                                 onClick={handleSeat}
-                                className="card-link btn btn-primary btn-sm"
-                                >
+                                className="card-link btn btn-primary btn-sm">
                             Seat
                                 </a> : <div></div>}
                 </div>
 
                 <div className="d-flex justify-content-center btn-group">
-                    <a 
-                        href={`/reservations/${currentReservation.reservation_id}/edit`}
-                        className="btn btn-sm btn-outline-dark"
-                    >
+                    <a      href={`/reservations/${currentReservation.reservation_id}/edit`}
+                            className="btn btn-sm btn-outline-dark">
                         EDIT
                     </a>
                     <button data-reservation-id-cancel={currentReservation.reservation_id}

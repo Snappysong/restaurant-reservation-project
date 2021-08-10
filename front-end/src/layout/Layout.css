@@ -18,6 +18,9 @@
     min-width: 200px;
 }
 
+.boldtext {
+  font-weight: bolder;
+}
 
 @media (min-width: 768px) {
   .main {

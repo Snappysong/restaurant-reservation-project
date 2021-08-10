@@ -72,7 +72,6 @@ function Dashboard({ date }) {
           <button className="btn btn-info" onClick={handleNextDay}>Next Day</button>
         </div>
 
-
         <ErrorAlert error={tablesError} />
         <ErrorAlert error={reservationsError} />
 
