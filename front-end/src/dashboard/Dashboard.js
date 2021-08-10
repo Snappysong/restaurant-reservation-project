@@ -8,9 +8,9 @@ import TableDetail from "./TableDetail";
 
 function Dashboard({ date }) {
 
-  const [reservations, setReservations] = useState([]);
+  const [reservations, setReservations] = useState(null);
   const [reservationsError, setReservationsError] = useState(null);
-  const [tables, setTables] = useState([]);
+  const [tables, setTables] = useState(null);
   const [tablesError, setTablesError] = useState(null);
   const [viewDate, setViewDate] = useState(date);
   
