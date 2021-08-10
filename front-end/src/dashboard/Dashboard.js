@@ -72,32 +72,32 @@ function Dashboard({ date }) {
           <button className="btn btn-info" onClick={handleNextDay}>Next Day</button>
         </div>
 
-        <div className="d-flex mb-3 justify-content-center">
-          <h4>Date: {viewDate}</h4>
-        </div>
 
         <ErrorAlert error={tablesError} />
         <ErrorAlert error={reservationsError} />
 
-        <div>
-            <ul className="list-group list-group-flush">
-              {reservations && reservations.map((res) => (
-                <li className="list-group-item list-background" key={res.reservation_id}>
-                  <ReservationDetail reservation={res} />
-                </li>
-              ))}
-            </ul>
+        <div className="container">
+          <div className="d-flex mb-3 justify-content-center">
+            <h4>Date: {viewDate}</h4>
+          </div>
+          <div className="row">
+            {reservations && reservations.map((res) => (
+              <div className="col-md-6 mb-3">
+                <ReservationDetail reservation={res} />
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div>
+        <div className="container">
           <h3 className="d-flex m-3 justify-content-center">Tables</h3>
-            <ul className="list-group list-group-flush">
+          <div className="row">
               {tables && tables.map((table) => (
-                <li className="list-group-item list-background" key={table.table_id}>
+                <div className="col-md-6 mb-3">
                   <TableDetail table={table} reservations={reservations}/>
-                </li>
+                </div>
               ))}
-            </ul>
+          </div>
         </div>
       </main>
     ); 
