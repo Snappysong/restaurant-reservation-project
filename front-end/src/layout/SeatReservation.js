@@ -15,6 +15,7 @@ function SeatReservation() {
     const [currentRes, setCurrentRes] = useState({});
     const [formValue, setFormValue] = useState({});
     const [showAlert, setShowAlert] = useState("");
+    const [occupiedError, setOccupiedError] = useState("");
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -58,6 +59,7 @@ function SeatReservation() {
                 setTables(newTables);
                 history.push(`/dashboard`);
             })
+            .catch(setOccupiedError);
         }
     }
 
@@ -73,6 +75,7 @@ function SeatReservation() {
                     {/* Change some of this error formating. get rid of showAlert state. */}
                     <ErrorAlert error={tablesError} />
                     <ErrorAlert error={resError} />
+                    <ErrorAlert error={occupiedError} />
                     {showAlert && (
                             <p className="alert alert-danger">
                                 {showAlert}
