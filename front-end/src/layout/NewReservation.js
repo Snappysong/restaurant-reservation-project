@@ -2,9 +2,20 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 
-function NewReservation() {
+function NewReservation({ date, setDate }) {
     const history = useHistory();
 
+    const initialFormData = {
+        first_name: "",
+        last_name: "",
+        mobile_number: "",
+        reservation_date: date,
+        reservation_time: "",
+        people: "",
+    }
+
+    const [formData, setFormData] = useState(initialFormData);
+    //change to formData obj so it is easily passable
     const [first_name, setFirst_name] = useState("");
     const [last_name, setLast_name] = useState("");
     const [mobile_number, setMobile_number] = useState("");

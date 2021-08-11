@@ -1,7 +1,13 @@
+import { useHistory } from "react-router-dom";
 
 //MUST USE FORM COMPONENT.
-function ReservationForm({ reservation }) {
+function ReservationForm({ handleSubmit, formData, setFormData }) {
 
+    const history = useHistory();
+    const handleCancel = (e) => {
+        e.preventDefault();
+        history.goBack();
+    }
 
     return (
         <form className="form-group" onSubmit={handleSubmit} >
@@ -11,8 +17,16 @@ function ReservationForm({ reservation }) {
                 name="first_name"
                 type="text"
                 required
-                onChange={(e) => setFirst_name(e.target.value)}
-                value={first_name}
+                onChange={(e) => setFormData({
+                    // will this work?
+                    first_name: e.target.value,
+                    last_name: formData.last_name,
+                    mobile_number: formData.mobile_number,
+                    reservation_date: formData.reservation_date,
+                    reservation_time: formData.reservation_time,
+                    people: formData.people,
+                })}
+                value={formData.first_name}
                 className="form-control"
                 />
             <br />
