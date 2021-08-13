@@ -11,7 +11,7 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
 
     return (
         <form className="form-group" onSubmit={handleSubmit} >
-            <label>First Name:</label>
+            <label className="form-label">First Name:</label>
             <br />
                 <input
                 name="first_name"
@@ -30,31 +30,38 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 className="form-control"
                 />
             <br />
-            <label>Last Name:</label>
+            <label className="form-label">Last Name:</label>
             <br />
                 <input
                 name="last_name"
                 type="text"
                 required
                 onChange={(e) => setFormData({
-                    first_name: first_name,
+                    first_name: formData.first_name,
                     last_name: e.target.value,
-                    mobile_number: mobile_number,
-                    reservation_date: reservation_date,
-                    reservation_time: reservation_time,
+                    mobile_number: formData.mobile_number,
+                    reservation_date: formData.reservation_date,
+                    reservation_time: formData.reservation_time,
                     people: formData.people,
                 })}
                 value={last_name}
                 className="form-control"
                 />
             <br />
-            <label>Mobile Number:</label>
+            <label className="form-label">Mobile Number:</label>
             <br />
                 <input
                 name="mobile_number"
                 type="text"
                 required
-                onChange={(e) => setMobile_number(e.target.value)}
+                onChange={(e) => setFormData({
+                    first_name: formData.first_name,
+                    last_name: formData.last_name,
+                    mobile_number: e.target.value,
+                    reservation_date: formData.reservation_date,
+                    reservation_time: formData.reservation_time,
+                    people: formData.people,
+                })}
                 value={mobile_number}
                 className="form-control"
                 />
