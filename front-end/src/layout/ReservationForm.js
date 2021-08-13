@@ -36,7 +36,14 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 name="last_name"
                 type="text"
                 required
-                onChange={(e) => setLast_name(e.target.value)}
+                onChange={(e) => setFormData({
+                    first_name: first_name,
+                    last_name: e.target.value,
+                    mobile_number: mobile_number,
+                    reservation_date: reservation_date,
+                    reservation_time: reservation_time,
+                    people: formData.people,
+                })}
                 value={last_name}
                 className="form-control"
                 />
