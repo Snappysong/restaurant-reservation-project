@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
+import ErrorAlert from "./ErrorAlert";
 
-function NewReservation({ date, setDate }) {
+function NewReservation() {
     const history = useHistory();
 
-    const initialFormData = {
-        first_name: "",
-        last_name: "",
-        mobile_number: "",
-        reservation_date: date,
-        reservation_time: "",
-        people: "",
-    }
+    // const initialFormData = {
+    //     first_name: "",
+    //     last_name: "",
+    //     mobile_number: "",
+    //     reservation_date: "",
+    //     reservation_time: "",
+    //     people: "",
+    // }
 
-    const [formData, setFormData] = useState(initialFormData);
+    // const [formData, setFormData] = useState(initialFormData);
     //change to formData obj so it is easily passable
     const [first_name, setFirst_name] = useState("");
     const [last_name, setLast_name] = useState("");
@@ -23,68 +24,25 @@ function NewReservation({ date, setDate }) {
     const [reservation_time, setReservation_time] = useState("");
     const [people, setPeople] = useState(1);
 
-    const [showAlertForTuesdays, setShowAlertForTuesdays] = useState("");
-    const [showAlertForPast, setShowAlertForPast] = useState("");
-    const [showAlertForTime, setShowAlertForTime] = useState("");
+    const [error, setError] = useState(null);
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        setShowAlertForPast("");
-        setShowAlertForTuesdays("");
-        setShowAlertForTime("");
-
-        let year = reservation_date.split("-")[0];
-        let month = reservation_date.split("-")[1] - 1;
-        let day = reservation_date.split("-")[2];
-        let hour = reservation_time.split(":")[0];
-        let min = reservation_time.split(":")[1];
-        let reservationDate = new Date(year, month, day, hour, min)
-        let currentDate = new Date();
-        let valid = true;
-
-        if (reservationDate.getHours() < 10) {
-            setShowAlertForTime("This is before we are open!");
-            valid = false;
-        }
-        if (reservationDate.getHours() === 10) {
-            if (reservationDate.getMinutes() < 30) {
-                setShowAlertForTime("This is before we are open!");
-                valid = false;
-            }
-        }
-        if (reservationDate.getHours() > 21) {
-            setShowAlertForTime("This is too close to closing time.");
-            valid = false;
-        }
-        if (reservationDate.getHours() === 21) {
-            if (reservationDate.getMinutes() > 30) {
-                setShowAlertForTime("This is too close to closing time.");
-                valid = false;
-            }
-        }
-        if (reservationDate.getDay() === 2) {
-            setShowAlertForTuesdays("We are closed on Tuesdays!");
-            valid = false;
-        }
-        if (reservationDate.getTime() < currentDate.getTime()) {
-            setShowAlertForPast("This date is in the past!");
-            valid = false;
-        } 
-        if (valid === true) {
-            const reservation = {
-                first_name, 
-                last_name, 
-                mobile_number, 
-                reservation_date,
-                reservation_time,
-                people,
-                status: "booked",
-            };
-            createReservation(reservation)
-            .then(() => {
-                history.push(`/dashboard?date=${reservation_date}`);
-            });
-        }
+        setError(null);
+        const reservation = {
+            first_name, 
+            last_name, 
+            mobile_number, 
+            reservation_date,
+            reservation_time,
+            people,
+            status: "booked",
+        };
+        createReservation(reservation)
+        .then(() => {
+            history.push(`/dashboard?date=${reservation_date}`);
+        })
+        .catch(setError);
     }
 
     const handleCancel = (e) => {
@@ -94,23 +52,7 @@ function NewReservation({ date, setDate }) {
 
     return (
         <div>
-            <div>
-                {showAlertForTime && (
-                    <p className="alert alert-danger">
-                        {showAlertForTime}
-                    </p>
-                )}
-                {showAlertForTuesdays && (
-                    <p className="alert alert-danger">
-                        {showAlertForTuesdays}
-                    </p>
-                )}
-                {showAlertForPast && (
-                    <p className="alert alert-danger">
-                        {showAlertForPast}
-                    </p>
-                )}
-            </div>
+            <ErrorAlert error={error} />
 
             <h3 className="d-flex m-3 justify-content-center">New Reservation Form</h3>
 
