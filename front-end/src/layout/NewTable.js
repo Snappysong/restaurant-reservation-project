@@ -1,39 +1,25 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createTable } from "../utils/api";
+import ErrorAlert from "./ErrorAlert";
 
 function NewTable() {
     const history = useHistory();
     const [table_name, setTable_name] = useState("");
     const [capacity, setCapacity] = useState("");
-    const [showAlert, setShowAlert] = useState("");
+    const [error, setError] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setShowAlert("");
-        let valid = true;
-        if (table_name.length < 2) {
-            setShowAlert("Table name needs to be longer!");
-            valid = false;
-        }
-        if (isNaN(capacity)) {
-            setShowAlert("Capacity needs to be a valid number!");
-            valid = false;
-        }        
-        if (capacity < 1) {
-            setShowAlert("This table needs more seats/capacity!");
-            valid = false;
-        }
-        if (valid === true) {
-            const table = {
-                table_name,
-                capacity,
-            };
-            createTable(table)
-            .then(() => {
-                history.push("/dashboard");
-            });
-        }
+        const table = {
+            table_name,
+            capacity,
+        };
+        createTable(table)
+        .then(() => {
+            history.push("/dashboard");
+        })
+        .catch(setError);
     }
 
     const handleCancel = (e) => {
@@ -43,13 +29,7 @@ function NewTable() {
 
     return (
         <div>
-            <div>
-                {showAlert && (
-                    <p className="alert alert-danger">
-                        {showAlert}
-                    </p>
-                )}
-            </div>
+            <ErrorAlert error={error} />
 
             <h3 className="d-flex m-3 justify-content-center">New Table Form</h3>
 

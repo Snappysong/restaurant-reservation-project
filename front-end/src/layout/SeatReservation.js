@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { listTables, listReservations, updateSeatReservation } from "../utils/api";
+import { listTables, updateSeatReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 
 
@@ -10,11 +10,7 @@ function SeatReservation() {
 
     const [tables, setTables] = useState([]);
     const [tablesError, setTablesError] = useState("");
-    const [res, setRes] = useState([]);
-    const [resError, setResError] = useState("");
-    const [currentRes, setCurrentRes] = useState({});
     const [formValue, setFormValue] = useState({});
-    const [showAlert, setShowAlert] = useState("");
     const [occupiedError, setOccupiedError] = useState("");
 
     useEffect(() => {
@@ -26,41 +22,18 @@ function SeatReservation() {
         return () => abortController.abort();
     }, []);
 
-    useEffect(() => {
-        const abortController = new AbortController();
-        setResError(null);
-        listReservations({ }, abortController.signal)
-        .then(setRes)
-        .catch(setResError);
-        return () => abortController.abort();
-    }, []);
-
-    useEffect(() => {
-        const current = res.find((obj) => obj.reservation_id === Number(params.reservation_id));
-        setCurrentRes(current);
-    }, [res, params.reservation_id]);
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        //showAlert needs to go but somehow switch here when clicked
-        setShowAlert("");
-        let valid = true;
         const tableObj = JSON.parse(formValue);
-        if (currentRes.people > tableObj.capacity) {
-            setShowAlert("This table is too small for this reservation!");
-            valid = false;
-        }
-        if (valid === true) {
-            updateSeatReservation(tableObj.table_id, params.reservation_id)
-            .then((response) => {
-                const newTables = tables.map((table) => {
-                    return table.table_id === response.table_id ? response : table
-                })
-                setTables(newTables);
-                history.push(`/dashboard`);
+        updateSeatReservation(tableObj.table_id, params.reservation_id)
+        .then((response) => {
+            const newTables = tables.map((table) => {
+                return table.table_id === response.table_id ? response : table
             })
-            .catch(setOccupiedError);
-        }
+            setTables(newTables);
+            history.push(`/dashboard`);
+        })
+        .catch(setOccupiedError);
     }
 
     const handleCancel = (e) => {
@@ -71,17 +44,8 @@ function SeatReservation() {
     if (tables) {
         return (
             <div>
-                <div>
-                    {/* Change some of this error formating. get rid of showAlert state. */}
-                    <ErrorAlert error={tablesError} />
-                    <ErrorAlert error={resError} />
-                    <ErrorAlert error={occupiedError} />
-                    {showAlert && (
-                            <p className="alert alert-danger">
-                                {showAlert}
-                            </p>
-                        )}
-                </div>
+                <ErrorAlert error={tablesError} />
+                <ErrorAlert error={occupiedError} />
 
                 <h3 className="d-flex m-3 justify-content-center">Seating for reservation ID: {params.reservation_id}</h3>
 
