@@ -29,6 +29,15 @@ function Dashboard() {
     return () => abortController.abort();
   }, [date, viewDate]);
 
+  useEffect(() => {
+    const abortController = new AbortController();
+    setError(null);
+    listTables()
+    .then(setTables)
+    .catch(setError);
+    return () => abortController.abort();
+  }, []);
+
   const query = useQuery();
   const searchedDate = query.get("date");
 
@@ -38,14 +47,6 @@ function Dashboard() {
     }    
   }, [searchedDate])
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    setError(null);
-    listTables()
-    .then(setTables)
-    .catch(setError);
-    return () => abortController.abort();
-  }, []);
 
   const handlePreviousDay = (e) => {
     e.preventDefault();
