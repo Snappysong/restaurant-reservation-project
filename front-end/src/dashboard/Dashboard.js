@@ -14,6 +14,7 @@ function Dashboard({ date }) {
   const [tablesError, setTablesError] = useState(null);
   const [viewDate, setViewDate] = useState(date);
   
+  //add useQuery?
   const history = useHistory();
   const location = useLocation();
   const searchedDate = location.search.slice(-10);
@@ -103,9 +104,7 @@ function Dashboard({ date }) {
   } else {
     return (
       <div>
-        <p>
-          This is Loading...
-        </p>
+        Loading...
       </div>
     )
   }

@@ -1,9 +1,8 @@
 import { useHistory } from "react-router-dom";
 
-//MUST USE FORM COMPONENT.
 function ReservationForm({ handleSubmit, formData, setFormData }) {
-
     const history = useHistory();
+    
     const handleCancel = (e) => {
         e.preventDefault();
         history.goBack();
@@ -18,7 +17,6 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 type="text"
                 required
                 onChange={(e) => setFormData({
-                    // will this work?
                     first_name: e.target.value,
                     last_name: formData.last_name,
                     mobile_number: formData.mobile_number,
@@ -44,7 +42,7 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                     reservation_time: formData.reservation_time,
                     people: formData.people,
                 })}
-                value={last_name}
+                value={formData.last_name}
                 className="form-control"
                 />
             <br />
@@ -62,7 +60,7 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                     reservation_time: formData.reservation_time,
                     people: formData.people,
                 })}
-                value={mobile_number}
+                value={formData.mobile_number}
                 className="form-control"
                 />
             <br />
@@ -72,8 +70,15 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 name="reservation_date"
                 type="date"
                 required
-                onChange={(e) => setReservation_date(e.target.value)}
-                value={reservation_date}
+                onChange={(e) => setFormData({
+                    first_name: formData.first_name,
+                    last_name: formData.last_name,
+                    mobile_number: formData.mobile_number,
+                    reservation_date: e.target.value,
+                    reservation_time: formData.reservation_time,
+                    people: formData.people,
+                })}
+                value={formData.reservation_date}
                 className="form-control"
                 />
             <br />
@@ -83,8 +88,15 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 name="reservation_time"
                 type="time"
                 required
-                onChange={(e) => setReservation_time(e.target.value)}
-                value={reservation_time}
+                onChange={(e) => setFormData({
+                    first_name: formData.first_name,
+                    last_name: formData.last_name,
+                    mobile_number: formData.mobile_number,
+                    reservation_date: formData.reservation_date,
+                    reservation_time: e.target.value,
+                    people: formData.people,
+                })}
+                value={formData.reservation_time}
                 className="form-control"
                 />
             <br />
@@ -94,8 +106,15 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 name="people"
                 type="number"
                 required
-                onChange={(e) => setPeople(e.target.valueAsNumber)}
-                value={people}
+                onChange={(e) => setFormData({
+                    first_name: formData.first_name,
+                    last_name: formData.last_name,
+                    mobile_number: formData.mobile_number,
+                    reservation_date: formData.reservation_date,
+                    reservation_time: formData.reservation_time,
+                    people: e.target.valueAsNumber,
+                })}
+                value={formData.people}
                 className="form-control"
                 />
             <br />
