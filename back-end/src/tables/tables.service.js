@@ -66,13 +66,18 @@ async function updateSeatReservation(reservation_id, table_id) {
 
 async function deleteSeatReservation(table_id, reservation_id) {
   const trx = await knex.transaction();
+  let updatedTable = {};
   return trx("reservations")
     .where({ reservation_id })
     .update({ status: "finished" })
     .then(() =>
-      trx("tables").where({ table_id }).update({ reservation_id: null })
+      trx("tables")
+        .where({ table_id })
+        .update({ reservation_id: null }, "*")
+        .then((result) => (updatedTable = result[0]))
     )
     .then(trx.commit)
+    .then(() => updatedTable)
     .catch(trx.rollback);
 }
 
