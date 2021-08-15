@@ -1,27 +1,14 @@
-import React, { useEffect, useState } from "react";
-
-import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
+import React from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
-import { today } from "../utils/date-time";
 import NewReservation from "./NewReservation";
 import NewTable from "./NewTable";
 import SeatReservation from "./SeatReservation";
-import useQuery from "../utils/useQuery";
 import SearchPhone from "./SearchPhone";
 import EditReservation from "./EditReservation";
 
 function Routes() {
-  const [date, setDate] = useState(today());
-  const url = useRouteMatch();
-  const query = useQuery();
-
-  useEffect(() => {
-    const newDate = query.get("date");
-    if (newDate) {
-      setDate(newDate);
-    }
-  }, [url, query]);
 
   return (
     <Switch>
@@ -44,7 +31,7 @@ function Routes() {
         <NewTable />
       </Route>
       <Route path="/dashboard">
-        <Dashboard date={date} />
+        <Dashboard />
       </Route>
       <Route path="/dashboard/:date">
         <Dashboard />

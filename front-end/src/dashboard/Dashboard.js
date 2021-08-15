@@ -1,50 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
 import { listReservations, listTables } from "../utils/api";
-import { previous, next } from "../utils/date-time";
+import { previous, next, today } from "../utils/date-time";
+import useQuery from "../utils/useQuery";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationDetail from "./ReservationDetail";
 import TableDetail from "./TableDetail";
 
-function Dashboard({ date }) {
+function Dashboard() {
+  const date = today();
 
   const [reservations, setReservations] = useState(null);
-  const [reservationsError, setReservationsError] = useState(null);
   const [tables, setTables] = useState(null);
-  const [tablesError, setTablesError] = useState(null);
   const [viewDate, setViewDate] = useState(date);
-  
-  //add useQuery?
-  const history = useHistory();
-  const location = useLocation();
-  const searchedDate = location.search.slice(-10);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const abortController = new AbortController();
-    setReservationsError(null);
+    setError(null);
     if (viewDate === date) {
       listReservations({ date }, abortController.signal)
       .then(setReservations)
-      .catch(setReservationsError);
+      .catch(setError);
     } else {
       listReservations({ viewDate }, abortController.signal)
       .then(setReservations)
-      .catch(setReservationsError);
-    }
-    if (searchedDate && searchedDate !== "") {
-      setViewDate(searchedDate);
+      .catch(setError);
     }
     return () => abortController.abort();
-  }, [date, viewDate, location.search, searchedDate]);
+  }, [date, viewDate]);
+
+  const query = useQuery();
+  const searchedDate = query.get("date");
+
+  useEffect(() => {
+    if (searchedDate && searchedDate !== "") {
+      setViewDate(searchedDate);
+    }    
+  }, [searchedDate])
 
   useEffect(() => {
     const abortController = new AbortController();
-    setTablesError(null);
+    setError(null);
     listTables()
     .then(setTables)
-    .catch(setTablesError);
+    .catch(setError);
     return () => abortController.abort();
-  }, [history]);
+  }, []);
 
   const handlePreviousDay = (e) => {
     e.preventDefault();
@@ -73,8 +74,7 @@ function Dashboard({ date }) {
           <button className="btn btn-info" onClick={handleNextDay}>Next Day</button>
         </div>
 
-        <ErrorAlert error={tablesError} />
-        <ErrorAlert error={reservationsError} />
+        <ErrorAlert error={error} />
 
         <div className="container">
           <div className="d-flex mb-3 justify-content-center">
