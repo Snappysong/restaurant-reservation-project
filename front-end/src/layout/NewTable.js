@@ -11,6 +11,7 @@ function NewTable() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setError(null);
         const table = {
             table_name,
             capacity,

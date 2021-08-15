@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import ErrorAlert from "../layout/ErrorAlert";
 import { deleteReservationId, updateReservationStatus } from "../utils/api";
 
 function TableDetail( {table, reservations} ) {
@@ -7,6 +8,7 @@ function TableDetail( {table, reservations} ) {
     const [currentTable, setCurrentTable] = useState(table);
     const [tableStatus, setTableStatus] = useState("Free");
     const [currentReservation, setCurrentReservation] = useState({});
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (currentTable.reservation_id) {
@@ -19,6 +21,7 @@ function TableDetail( {table, reservations} ) {
 
     const handleFinish = (e) => {
         e.preventDefault();
+        setError(null);
         const confirmBox = window.confirm(
             "Is this table ready to seat new guests? This cannot be undone."
         );
@@ -27,11 +30,13 @@ function TableDetail( {table, reservations} ) {
             .then((response) => {
                 setCurrentReservation(response)
             })
+            .catch(setError);
             deleteReservationId(currentTable.table_id)
             .then((response) => {
                 setCurrentTable(response)
                 history.go(0);
             })
+            .catch(setError);
         }
     }
 
@@ -41,6 +46,7 @@ function TableDetail( {table, reservations} ) {
 
     return (
         <div className="card text-center card-background">
+            <ErrorAlert error={error} />
             <div className="card-body">
                 <p className="card-text">Table ID: {currentTable.table_id}</p>
                 <p className="card-text">Table Name: {currentTable.table_name}</p>

@@ -23,12 +23,14 @@ function EditReservation() {
     const [currentReservation, setCurrentReservation] = useState({});
     
     useEffect(() => {
+        const abortController = new AbortController();
         setError(null);
         listReservations({})
         .then((response) => {
             setReservations(response);
         })
         .catch(setError);
+        return () => abortController.abort();
     }, []);
 
     useEffect(() => {

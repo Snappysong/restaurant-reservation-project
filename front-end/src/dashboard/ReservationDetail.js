@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import ErrorAlert from "../layout/ErrorAlert";
 import { updateReservationStatus } from "../utils/api";
 
 function ReservationDetail({reservation}) {
@@ -7,6 +8,7 @@ function ReservationDetail({reservation}) {
 
     const [currentReservation, setCurrentReservation] = useState(reservation);
     const [showSeat, setShowSeat] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (currentReservation.status === "booked" || currentReservation.status === null) {
@@ -16,16 +18,19 @@ function ReservationDetail({reservation}) {
 
     const handleSeat = (e) => {
         e.preventDefault();
+        setError(null);
         setShowSeat(false);
         updateReservationStatus({ status: "seated" }, currentReservation.reservation_id)
         .then((response) => {
             setCurrentReservation(response);
             history.push(`/reservations/${currentReservation.reservation_id}/seat`);
-        });
+        })
+        .catch(setError);
     }
 
     const handleCancelRes = (e) => {
         e.preventDefault();
+        setError(null);
         const confirmBox = window.confirm(
             "Do you want to cancel this reservation? This cannot be undone."
         );
@@ -34,12 +39,14 @@ function ReservationDetail({reservation}) {
             .then((response) => {
                 setCurrentReservation(response);
                 history.go(0);
-            });
+            })
+            .catch(setError);
         }
     }
 
     return (
         <div className="card text-left card-background">
+            <ErrorAlert error={error} />
             <div className="card-body">
                 <h4 className="card-title text-center">{currentReservation.reservation_time}</h4>
                 <p className="card-text text-center">{currentReservation.reservation_date}</p>

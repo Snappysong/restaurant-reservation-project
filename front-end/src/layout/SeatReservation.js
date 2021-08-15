@@ -9,21 +9,21 @@ function SeatReservation() {
     const params = useParams();
 
     const [tables, setTables] = useState([]);
-    const [tablesError, setTablesError] = useState("");
     const [formValue, setFormValue] = useState({});
-    const [occupiedError, setOccupiedError] = useState("");
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const abortController = new AbortController();
-        setTablesError(null);
+        setError(null);
         listTables()
         .then(setTables)
-        .catch(setTablesError);
+        .catch(setError);
         return () => abortController.abort();
     }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setError(null);
         const tableObj = JSON.parse(formValue);
         updateSeatReservation(tableObj.table_id, params.reservation_id)
         .then((response) => {
@@ -33,7 +33,7 @@ function SeatReservation() {
             setTables(newTables);
             history.push(`/dashboard`);
         })
-        .catch(setOccupiedError);
+        .catch(setError);
     }
 
     const handleCancel = (e) => {
@@ -44,8 +44,7 @@ function SeatReservation() {
     if (tables) {
         return (
             <div>
-                <ErrorAlert error={tablesError} />
-                <ErrorAlert error={occupiedError} />
+                <ErrorAlert error={error} />
 
                 <h3 className="d-flex m-3 justify-content-center">Seating for reservation ID: {params.reservation_id}</h3>
 
