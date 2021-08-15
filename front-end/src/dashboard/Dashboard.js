@@ -94,7 +94,7 @@ function Dashboard({ date }) {
           <div className="row">
               {tables && tables.map((table) => (
                 <div className="col-md-6 mb-3" key={table.table_id}>
-                  <TableDetail table={table} reservations={reservations}/>
+                  <TableDetail table={table} />
                 </div>
               ))}
           </div>
