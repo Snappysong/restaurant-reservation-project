@@ -2,6 +2,7 @@ const service = require("./tables.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 const onlyValidProperties = require("../errors/onlyValidProperties");
+const { as } = require("../db/connection");
 
 // SET UP FOR VALIDATION
 const REQUIRED_PROPERTIES = ["table_name", "capacity"];
@@ -107,6 +108,19 @@ async function hasEnoughCapacity(req, res, next) {
   });
 }
 
+async function tablesExistsForDelete(req, res, next) {
+  const {data: {table_id}} = req.body;
+  const table = await service.read(table_id);
+  if (table) {
+    res.locals.table = table;
+    return next();
+  }
+  next({
+    status: 400,
+    message: `table '${table_id}' cannot be found.`
+  });
+}
+
 // CRUD FUNCTIONS
 async function create(req, res) {
   const table = req.body.data;
@@ -137,6 +151,12 @@ async function list(req, res) {
   res.json({ data });
 }
 
+async function deleteTable(req, res) {
+  const {table_id} = res.locals.table;
+  await service.deleteTable(table_id);
+  res.status(200)
+}
+
 module.exports = {
   create: [
     hasOnlyValidPropertiesForCreate,
@@ -162,4 +182,8 @@ module.exports = {
     asyncErrorBoundary(deleteSeatReservation),
   ],
   list: asyncErrorBoundary(list),
+  deleteTable: [
+    asyncErrorBoundary(tablesExistsForDelete),
+    asyncErrorBoundary(deleteTable),
+  ],
 };

@@ -81,6 +81,12 @@ async function deleteSeatReservation(table_id, reservation_id) {
     .catch(trx.rollback);
 }
 
+function deleteTable(table_id) {
+  return knex('tables')
+    .where({ table_id: table_id })
+    .del()
+}
+
 function list() {
   return knex("tables").orderBy("table_name");
 }
@@ -93,4 +99,5 @@ module.exports = {
   updateSeatReservation,
   deleteSeatReservation,
   list,
+  deleteTable,
 };

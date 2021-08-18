@@ -223,3 +223,14 @@ export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
   return await fetchJson(url, { headers, signal }, []);
 }
+
+export async function deleteTable(table_id, signal) {
+  const url = `${API_BASE_URL}/tables`;
+  const options = {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify({ data: {table_id} }),
+    signal,
+  };
+  return await fetchJson(url, options);
+}

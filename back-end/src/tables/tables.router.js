@@ -6,11 +6,12 @@ router
   .route("/")
   .post(controller.create)
   .get(controller.list)
+  .delete(controller.deleteTable)
   .all(methodNotAllowed);
 
 router
   .route("/:tableId([0-9]+)")
-  .get(controller.read)
+  .get(controller.read)  
   .all(methodNotAllowed);
 
 router

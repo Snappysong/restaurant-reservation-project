@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
-import { deleteReservationId, updateReservationStatus } from "../utils/api";
+import { deleteReservationId, deleteTable, updateReservationStatus } from "../utils/api";
 
 function TableDetail( {table} ) {
     const history = useHistory();
@@ -39,6 +39,19 @@ function TableDetail( {table} ) {
         e.preventDefault();
     }
 
+    const handleDelete =(e) => {
+        e.preventDefault();
+        setError(null);
+        const confirmBox = window.confirm(
+            "Are you sure you want to delete this table? This cannot be undone."
+        );
+        if (confirmBox === true) {
+            deleteTable(currentTable.table_id)
+            .catch(setError);
+            history.go(0);
+        }
+    }
+
     return (
         <div className="card text-center card-background">
             <ErrorAlert error={error} />
@@ -51,6 +64,7 @@ function TableDetail( {table} ) {
                 <div className="d-flex justify-content-center">
                     {tableStatus === "Free" ? (<div></div>) : (<div><button className="btn btn-primary" data-table-id-finish={currentTable.table_id} onClick={handleFinish}>FINISH</button> <button className="btn btn-danger" onClick={handleCancel}>CANCEL</button></div>)} 
                 </div>
+                <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
             </div>
         </div>
     )
