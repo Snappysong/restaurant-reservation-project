@@ -101,7 +101,7 @@ describe("US-08 - Change an existing reservation - E2E", () => {
           return response.url().includes("/reservations?date=");
         });
 
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(5000);
 
         expect(await page.$(cancelButtonSelector)).toBeNull();
       });
