@@ -66,24 +66,24 @@ function Dashboard() {
       <main>
 
         <div className="d-flex mb-3 justify-content-center">
-          <h1>Your Dashboard</h1>
+          <h1 className="display-3 text-white major-mono"><i>Dashboard</i></h1>
         </div>  
 
         <div className="d-flex mb-3 justify-content-around">
-          <button className="btn btn-info" onClick={handlePreviousDay}>Previous Day</button>
-          <button className="btn btn-dark" onClick={handleTodayDay}>Today</button>
-          <button className="btn btn-info" onClick={handleNextDay}>Next Day</button>
+          <button className="btn btn-primary" onClick={handlePreviousDay}>Previous Day</button>
+          <button className="btn btn-primary" onClick={handleTodayDay}>Today</button>
+          <button className="btn btn-primary" onClick={handleNextDay}>Next Day</button>
         </div>
 
         <ErrorAlert error={error} />
 
         <div className="container">
-          <div className="d-flex mb-3 justify-content-center">
+          <div className="d-flex mb-3 justify-content-center text-white">
             <h4>Date: {viewDate}</h4>
           </div>
           <div className="row">
             {reservations && reservations.map((res) => (
-              <div className="col-md-6 mb-3" key={res.reservation_id}>
+              <div className="col-md-6 col-lg-3 mb-3" key={res.reservation_id}>
                 <ReservationDetail reservation={res} />
               </div>
             ))}
@@ -91,10 +91,10 @@ function Dashboard() {
         </div>
 
         <div className="container">
-          <h3 className="d-flex m-3 justify-content-center">Tables</h3>
+          <h3 className="d-flex m-3 justify-content-center text-white major-mono h1">Tables</h3>
           <div className="row">
               {tables && tables.map((table) => (
-                <div className="col-md-6 mb-3" key={table.table_id}>
+                <div className="col-md-6  col-lg-3 mb-3" key={table.table_id}>
                   <TableDetail table={table} />
                 </div>
               ))}

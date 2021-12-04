@@ -46,11 +46,11 @@ function SeatReservation() {
             <div>
                 <ErrorAlert error={error} />
 
-                <h3 className="d-flex m-3 justify-content-center">Seating for reservation ID: {params.reservation_id}</h3>
+                <h3 className="d-flex m-3 justify-content-center display-4 text-white">Seating Reservation {params.reservation_id}</h3>
 
                 <div>
                     <form className="form-group" onSubmit={handleSubmit} >
-                        <label>Table Number:</label>
+                        <label className="text-white">Table Number:</label>
                         <br />
                         <select className="form-control" name="table_id" onChange={(e) => setFormValue(e.target.value)}>
                             <option value="">--Please Choose a Table--</option>
@@ -65,7 +65,7 @@ function SeatReservation() {
                         </select>
                         <br />
                         <div className="d-flex justify-content-around">
-                            <button className="btn btn-primary" type="submit">SUBMIT</button>
+                            <button className="btn btn-primary" type="submit">Submit</button>
                             <button className="btn btn-danger" onClick={handleCancel}>Cancel</button>
                         </div>
                     </form>

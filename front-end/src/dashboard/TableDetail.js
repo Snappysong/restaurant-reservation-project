@@ -6,14 +6,14 @@ import { deleteReservationId, deleteTable, updateReservationStatus } from "../ut
 function TableDetail( {table} ) {
     const history = useHistory();
     const [currentTable, setCurrentTable] = useState(table);
-    const [tableStatus, setTableStatus] = useState("Free");
+    const [tableStatus, setTableStatus] = useState("Table is Free");
     const [error, setError] = useState(null);
 
     useEffect(() => {
         if (currentTable.reservation_id) {
-            setTableStatus(`Occupied by reservation ID: ${currentTable.reservation_id}`);
+            setTableStatus(`Occupied by Reservation ID: ${currentTable.reservation_id}`);
         } else {
-            setTableStatus("Free");
+            setTableStatus("Table is Free");
         }
     }, [currentTable]);
 
@@ -58,13 +58,27 @@ function TableDetail( {table} ) {
             <div className="card-body">
                 <p className="card-text">Table Name: {currentTable.table_name}</p>
                 <p className="card-text">Table Capacity: {currentTable.capacity}</p>
-                <p className="card-text" data-table-id-status={`${currentTable.table_id}`}>
-                {tableStatus}
-                </p>   
-                <div className="d-flex justify-content-center">
-                    {tableStatus === "Free" ? (<div></div>) : (<div><button className="btn btn-primary" data-table-id-finish={currentTable.table_id} onClick={handleFinish}>FINISH</button> <button className="btn btn-danger" onClick={handleCancel}>CANCEL</button></div>)} 
+
+                <div className="d-flex justify-content-center mb-3">
+                    {tableStatus === "Table is Free" ? (<div></div>) : 
+                    (<div>
+                        <button 
+                            className="btn btn-primary" 
+                            data-table-id-finish={currentTable.table_id} 
+                            onClick={handleFinish}>Finish
+                        </button> 
+                        <button 
+                            className="btn btn-danger" 
+                            onClick={handleCancel}>Cancel
+                        </button>
+                    </div>)} 
                 </div>
-                <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+
+                <p className="card-text" data-table-id-status={`${currentTable.table_id}`}>
+                    {tableStatus}
+                </p>   
+
+                <button className="btn btn-danger" onClick={handleDelete}>Delete Table</button>
             </div>
         </div>
     )

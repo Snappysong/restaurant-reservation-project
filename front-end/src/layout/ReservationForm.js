@@ -10,7 +10,7 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
 
     return (
         <form className="form-group" onSubmit={handleSubmit} >
-            <label className="form-label">First Name:</label>
+            <label className="form-label text-white">First Name:</label>
             <br />
                 <input
                 name="first_name"
@@ -28,7 +28,7 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 className="form-control"
                 />
             <br />
-            <label className="form-label">Last Name:</label>
+            <label className="form-label text-white">Last Name:</label>
             <br />
                 <input
                 name="last_name"
@@ -46,7 +46,7 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 className="form-control"
                 />
             <br />
-            <label className="form-label">Mobile Number:</label>
+            <label className="form-label text-white">Mobile Number:</label>
             <br />
                 <input
                 name="mobile_number"
@@ -64,7 +64,7 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 className="form-control"
                 />
             <br />
-            <label>Reservation Date:</label>
+            <label className="text-white">Reservation Date:</label>
             <br />
                 <input
                 name="reservation_date"
@@ -82,7 +82,7 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 className="form-control"
                 />
             <br />
-            <label>Reservation Time:</label>
+            <label className="text-white">Reservation Time:</label>
             <br />
                 <input
                 name="reservation_time"
@@ -100,7 +100,7 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
                 className="form-control"
                 />
             <br />
-            <label>Amount of People:</label>
+            <label className="text-white">Amount of People:</label>
             <br />
                 <input
                 name="people"
@@ -120,8 +120,8 @@ function ReservationForm({ handleSubmit, formData, setFormData }) {
             <br />
 
             <div className="d-flex justify-content-around">
-                <button className="btn btn-primary" type="submit">submit</button>
-                <button className="btn btn-danger" onClick={handleCancel}>CANCEL</button>
+                <button className="btn btn-primary" type="submit">Submit</button>
+                <button className="btn btn-danger" onClick={handleCancel}>Cancel</button>
             </div>
         </form>
     )

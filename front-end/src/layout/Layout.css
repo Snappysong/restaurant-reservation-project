@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Raleway:wght@300&display=swap');
 
 .main {
-  background-color: rgb(212, 211, 211);
+  background-image: url(../images/food.png);
   height: 100%;
   min-height: 100vh;
+  font-family: 'Raleway', sans-serif;
 }
 
 .list-background {
@@ -21,6 +23,9 @@
 .boldtext {
   font-weight: bolder;
 }
+.major-mono {
+  font-family: 'Major Mono Display', monospace;
+}
 
 @media (min-width: 768px) {
   .main {
@@ -29,7 +34,7 @@
   }
 
   .side-bar {
-    background-color: black;
+    background-color: rgba(0, 0, 0, .88);
     min-width: 200px;
     min-height: 100%;
 
