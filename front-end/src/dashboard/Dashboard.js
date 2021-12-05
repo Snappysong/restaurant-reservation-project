@@ -66,7 +66,7 @@ function Dashboard() {
       <main>
 
         <div className="d-flex mb-3 justify-content-center">
-          <h1 className="display-3 text-white major-mono"><i>Dashboard</i></h1>
+          <h1 className="display-3 text-white major-mono">Dashboard</h1>
         </div>  
 
         <div className="d-flex mb-3 justify-content-around">
