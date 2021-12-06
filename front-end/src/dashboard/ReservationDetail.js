@@ -45,7 +45,7 @@ function ReservationDetail({reservation}) {
     }
 
     return (
-        <div className="card text-left card-background">
+        <div className="card text-left card-background bg-dark text-white">
             <ErrorAlert error={error} />
             <div className="card-body">
                 <h4 className="card-title text-center">{currentReservation.reservation_time}</h4>
@@ -66,16 +66,18 @@ function ReservationDetail({reservation}) {
                 <p className="card-text d-flex justify-content-center">{currentReservation.first_name} {currentReservation.last_name}</p>
                 <p className="card-text d-flex justify-content-center">{currentReservation.mobile_number}</p>
                 <p className="card-text d-flex justify-content-center">Party Size: {currentReservation.people}</p>
+                <p className="card-text d-flex justify-content-center">Reservation ID: {currentReservation.reservation_id}</p>
+                
 
 
                 <div className="d-flex justify-content-center btn-group">
                     <a      href={`/reservations/${currentReservation.reservation_id}/edit`}
-                            className="btn btn-sm btn-outline-dark">
+                            className="btn btn-sm btn-outline-light">
                         Edit Reservation
                     </a>
                     <button data-reservation-id-cancel={currentReservation.reservation_id}
                             onClick={handleCancelRes}
-                            className="btn btn-danger btn-sm btn-outline-dark">
+                            className="btn btn-danger btn-sm btn-outline-light">
                         Cancel Reservation
                     </button>
                 </div>

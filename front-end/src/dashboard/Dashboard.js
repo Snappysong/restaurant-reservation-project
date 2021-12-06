@@ -83,7 +83,7 @@ function Dashboard() {
           </div>
           <div className="row">
             {reservations && reservations.map((res) => (
-              <div className="col-md-6 col-lg-3 mb-3" key={res.reservation_id}>
+              <div className="col-md-6 mb-3" key={res.reservation_id}>
                 <ReservationDetail reservation={res} />
               </div>
             ))}

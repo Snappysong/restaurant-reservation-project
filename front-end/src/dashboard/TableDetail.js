@@ -53,7 +53,7 @@ function TableDetail( {table} ) {
     }
 
     return (
-        <div className="card text-center card-background">
+        <div className="card text-center card-background bg-dark text-white rounded">
             <ErrorAlert error={error} />
             <div className="card-body">
                 <p className="card-text">Table Name: {currentTable.table_name}</p>
