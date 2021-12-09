@@ -44,10 +44,10 @@ const UPDATE_VALID_PROPERTIES = [
 
 const hasOnlyValidProperties = onlyValidProperties(VALID_PROPERTIES);
 const hasRequiredProperties = hasProperties(REQUIRED_PROPERTIES);
-const hasOnlyValidUpdateProperties = onlyValidProperties(
-  UPDATE_VALID_PROPERTIES
-);
+
+const hasOnlyValidUpdateProperties = onlyValidProperties(UPDATE_VALID_PROPERTIES);
 const hasRequiredUpdateProperties = hasProperties(UPDATE_REQUIRED_PROPERTIES);
+
 const hasOnlyStatus = onlyValidProperties(["status"]);
 const hasRequiredStatus = hasProperties(["status"]);
 
