@@ -5,7 +5,7 @@ This is a project made for a restaurant to use for taking and keeping track of r
 
 This project is something I build from the ground up. Full stack! I think I enjoyed working with the server side more than I anticipated, which was a pleasant surprise. I remember handling the tests that were premade into this project were quite tedious, due to timeout issues, but it all worked out in the end. I am looking forward to my next full stack project!
 
-Project Link: https://thinkful-rest-res-client.herokuapp.com/
+Project Link: https://restaurant-reservation-project-mauve.vercel.app/dashboard
 
 ## Goals
 
